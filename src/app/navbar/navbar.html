@@ -1,0 +1,17 @@
+<nav>
+ <div>
+  <a href="/home">Phegon Hotel</a>
+ </div>
+ <ul>
+  <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+  <li><a routerLink="/rooms">Rooms</a></li>
+  <li><a routerLink="/find-booking">Find Booking</a></li>
+
+  <li *ngIf="isCustomer"><a routerLink="/profile">Profile</a></li>
+  <li *ngIf="isAdmin"><a routerLink="/admin">Admin</a></li>
+  <li *ngIf="!isAuthenticated"><a routerLink="/login">Login</a></li>
+  <li *ngIf="!isAuthenticated"><a routerLink="/register">Register</a></li>
+  
+  <li *ngIf="isAuthenticated" (click)="handleLogout()">Logout</li>
+ </ul>
+</nav>
