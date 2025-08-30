@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { Login } from './login/login';
 import { Register } from './userprofile/register/register';
 import { Profile } from './userprofile/profile/profile';
 import { Guard } from './service/guard';
 import { EditProfile } from './userprofile/edit-profile/edit-profile';
 import { Rooms } from './room/rooms/rooms';
 import { FindBooking } from './find-booking/find-booking';
+import { Login } from './common/login/login';
 
 export const routes: Routes = [
   {

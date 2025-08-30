@@ -1,7 +1,7 @@
 import { CommonModule, NgIf } from '@angular/common';
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Api } from '../service/api';
+import { Api } from '../../service/api';
 
 @Component({
   selector: 'app-navbar',

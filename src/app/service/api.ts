@@ -1,18 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import CryptoJS from 'crypto-js';
-import {
-  BehaviorSubject,
-  catchError,
-  map,
-  Observable,
-  tap,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
 import { User } from '../model/user';
 import { MessagesService } from './messages.service';
 import { LoadingService } from './loading.service';
 import { Response } from '../model/response';
+import { Booking } from '../model/booking';
 
 @Injectable({
   providedIn: 'root',
@@ -75,28 +69,26 @@ export class Api {
     return this.http.post(`${Api.BASE_URL}/auth/login`, body);
   }
 
-  getUserProfile() {
-    const user$ = this.http
+  getUserProfile(): Observable<User> {
+    return this.http
       .get<Response>(`${Api.BASE_URL}/users/account`, {
         headers: this.getHeader(),
       })
       .pipe(
         map((response) => response['user']),
-        catchError((err) => {
-          const message = 'Could not find user';
-          this.messagesService.showErrors(message);
-          console.log(message, err);
-          return throwError(err);
-        }),
-        tap((user) => this.subject.next(user))
+        shareReplay()
       );
-    this.loading.showLoaderUntilCompleted(user$).subscribe();
   }
 
-  getBookings(): Observable<any> {
-    return this.http.get(`${Api.BASE_URL}/users/bookings`, {
-      headers: this.getHeader(),
-    });
+  getBookings(): Observable<Booking[]> {
+    return this.http
+      .get<Response>(`${Api.BASE_URL}/users/bookings`, {
+        headers: this.getHeader(),
+      })
+      .pipe(
+        map((response) => response['bookings']),
+        shareReplay()
+      );
   }
 
   deleteAccount(): Observable<any> {

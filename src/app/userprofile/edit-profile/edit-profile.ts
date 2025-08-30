@@ -27,26 +27,7 @@ export class EditProfile {
   ) {}
 
   ngOnInit(): void {
-    this.fetchUserProfile();
-  }
-
-  ngAfterContentChecked() {
-    this.cdref.detectChanges();
-  }
-
-  fetchUserProfile(): void {
-    this.user$ = this.apiService.user$;
-    // this.apiService.getUserProfile().subscribe({
-    //   next: (response: any) => {
-    //     this.user = response.user;
-    //     this.userExists = Object.keys(this.user).length > 0;
-    //     console.log(this.user);
-    //     console.log(this.userExists);
-    //   },
-    //   error: (err) => {
-    //     this.showError(err?.error?.message || 'Error fetching user profile');
-    //   },
-    // });
+    this.user$ = this.apiService.getUserProfile();
   }
 
   showError(message: string) {
