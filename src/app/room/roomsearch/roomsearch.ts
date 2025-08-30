@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Api } from '../service/api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Api } from '../../service/api';
 
 @Component({
   selector: 'app-roomsearch',

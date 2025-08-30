@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Api } from '../service/api';
 import { Router } from '@angular/router';
+import { Api } from '../../service/api';
 
 @Component({
   selector: 'app-roomresult',

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Api } from '../service/api';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Api } from '../../service/api';
 import { Router } from '@angular/router';
+import { Observable, EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -9,8 +10,8 @@ import { Router } from '@angular/router';
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class Profile {
-  user: any = null;
+export class Profile implements OnInit {
+  user$: Observable<any> = EMPTY;
   bookings: any[] = [];
   error: any = null;
 
@@ -20,6 +21,10 @@ export class Profile {
     this.fetchUserProfile();
   }
 
+  // ngAfterContentChecked() {
+  //   this.cdref.detectChanges();
+  // }
+
   showError(message: string) {
     this.error = message;
     setTimeout(() => {
@@ -28,7 +33,8 @@ export class Profile {
   }
 
   fetchUserProfile() {
-    this.apiService.getUserProfile().subscribe({
+    this.user$ = this.apiService.user$;
+    /*this.apiService.getUserProfile().subscribe({
       next: (response: any) => {
         this.user = response.user;
         console.log('user ' + this.user?.email);
@@ -53,7 +59,7 @@ export class Profile {
             'Error getting user profile: ' + err
         );
       },
-    });
+    });*/
   }
 
   handleLogout() {

@@ -1,7 +1,10 @@
 <div>
   <h2>Register</h2>
 
-  <p *ngIf="error" class="error">{{ error }}</p>
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+  
 
   <form (ngSubmit)="handleSubmit()">
     <input

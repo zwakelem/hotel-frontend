@@ -1,0 +1,25 @@
+<div class="profile">
+  <h2>Edit Profile</h2>
+
+
+  <!-- Error Message -->
+  @if(true) {
+    <ng-container>
+      <p class="error">{{ error }}</p>
+    </ng-container>
+  }
+  
+  <!-- User Profile Details -->
+  @if (user$ | async; as user) {
+    <ng-container>
+      <p><strong>First Name:</strong> {{ user.firstName }}</p>
+      <p><strong>Last Name:</strong> {{ user.lastName }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
+    
+      <!-- Button to delete account -->
+      <button (click)="handleDeleteProfile()">Delete My Account</button>
+    </ng-container>
+  }
+  
+</div>

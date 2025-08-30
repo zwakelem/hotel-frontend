@@ -1,16 +1,24 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Api } from '../service/api';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, NgIf],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  constructor(private router: Router, private apiService: Api) {}
+  constructor(
+    private router: Router,
+    private apiService: Api,
+    private cdref: ChangeDetectorRef
+  ) {}
+
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+  }
 
   get isAuthenticated(): boolean {
     return this.apiService.isAuthenticated();

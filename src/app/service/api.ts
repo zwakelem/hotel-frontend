@@ -1,16 +1,34 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import CryptoJS from 'crypto-js';
-import { Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  tap,
+  throwError,
+} from 'rxjs';
+import { User } from '../model/user';
+import { MessagesService } from './messages.service';
+import { LoadingService } from './loading.service';
+import { Response } from '../model/response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Api {
+  private subject = new BehaviorSubject<User | null>(null);
+  user$: Observable<User | null> = this.subject.asObservable();
+
   private static BASE_URL = 'http://localhost:8080/api';
   private static ENCRYPTION_KEY = 'dennis-encrypt-key';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private loading: LoadingService,
+    private messagesService: MessagesService
+  ) {}
 
   //
   encryptAndSaveToStorage(key: string, value: string): void {
@@ -57,10 +75,22 @@ export class Api {
     return this.http.post(`${Api.BASE_URL}/auth/login`, body);
   }
 
-  getUserProfile(): Observable<any> {
-    return this.http.get(`${Api.BASE_URL}/users/account`, {
-      headers: this.getHeader(),
-    });
+  getUserProfile() {
+    const user$ = this.http
+      .get<Response>(`${Api.BASE_URL}/users/account`, {
+        headers: this.getHeader(),
+      })
+      .pipe(
+        map((response) => response['user']),
+        catchError((err) => {
+          const message = 'Could not find user';
+          this.messagesService.showErrors(message);
+          console.log(message, err);
+          return throwError(err);
+        }),
+        tap((user) => this.subject.next(user))
+      );
+    this.loading.showLoaderUntilCompleted(user$).subscribe();
   }
 
   getBookings(): Observable<any> {
@@ -175,12 +205,12 @@ export class Api {
   }
 
   isAdmin(): boolean {
-    const role = this.getFromStorageAndDecrypt('token');
+    const role = this.getFromStorageAndDecrypt('role');
     return role === 'ADMIN';
   }
 
   isCustomer(): boolean {
-    const role = this.getFromStorageAndDecrypt('token');
+    const role = this.getFromStorageAndDecrypt('role');
     return role === 'CUSTOMER';
   }
 }
