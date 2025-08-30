@@ -1,25 +1,40 @@
-<div class="profile">
-  <h2>Edit Profile</h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
 
+        <div class="justify-content-center card-header">
+          <h3>Edit Profile</h3>
+        </div>
+        
+        @if(error) {
+        <ng-container>
+          <div class="alert alert-danger" role="alert">
+            <span class="sr-only">{{error}}</span>
+          </div>
+        </ng-container>
+        }
 
-  <!-- Error Message -->
-  @if(true) {
-    <ng-container>
-      <p class="error">{{ error }}</p>
-    </ng-container>
-  }
-  
-  <!-- User Profile Details -->
-  @if (user$ | async; as user) {
-    <ng-container>
-      <p><strong>First Name:</strong> {{ user.firstName }}</p>
-      <p><strong>Last Name:</strong> {{ user.lastName }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
-      <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
-    
-      <!-- Button to delete account -->
-      <button (click)="handleDeleteProfile()">Delete My Account</button>
-    </ng-container>
-  }
-  
+        <div class="card-body">
+
+          @if (user$ | async; as user) {
+            <ng-container>
+              <p><strong>First Name:</strong> {{ user.firstName }}</p>
+              <p><strong>Last Name:</strong> {{ user.lastName }}</p>
+              <p><strong>Email:</strong> {{ user.email }}</p>
+              <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
+            
+              <!-- Button to delete account -->
+              <div class="card-footer">
+                <button type="button" class="btn btn-danger" (click)="handleDeleteProfile()">Delete My Account</button>
+                <button type="button" class="btn btn-success" (click)="handleDeleteProfile()">Update</button>
+              </div>
+            
+            </ng-container>
+          }
+        </div>
+        
+      </div>
+    </div>
+  </div>
 </div>

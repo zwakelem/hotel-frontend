@@ -37,6 +37,8 @@ export class EditProfile {
     }, 4000);
   }
 
+  //TODO implement edit profile functionality
+
   handleDeleteProfile(): void {
     if (!window.confirm('Are you sure you want to delete your account?')) {
       return;
