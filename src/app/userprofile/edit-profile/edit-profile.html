@@ -15,26 +15,35 @@
         </ng-container>
         }
 
-        <div class="card-body">
-
-          @if (user$ | async; as user) {
-            <ng-container>
-              <p><strong>First Name:</strong> {{ user.firstName }}</p>
-              <p><strong>Last Name:</strong> {{ user.lastName }}</p>
-              <p><strong>Email:</strong> {{ user.email }}</p>
-              <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
-            
-              <!-- Button to delete account -->
-              <div class="card-footer">
-                <button type="button" class="btn btn-danger" (click)="handleDeleteProfile()">Delete My Account</button>
-                <button type="button" class="btn btn-success" (click)="handleDeleteProfile()">Update</button>
+        @if (user) {
+          <ng-container>
+            <form>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="firstName" class="form-label"><strong>First Name:</strong></label>
+                  <input id="firstName" name="firstName" class="form-control" [(ngModel)]="user.firstName" required>
+                </div>
+                <div class="mb-3">
+                  <label for="lastName" class="form-label"><strong>Last Name:</strong></label>
+                  <input id="lastName" name="lastName" class="form-control" [(ngModel)]="user.lastName" required>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label"><strong>Email:</strong></label>
+                  <input id="email" name="email" class="form-control" [(ngModel)]="user.email" readonly>
+                </div>
+                <div class="mb-3">
+                  <label for="phoneNumber" class="form-label"><strong>Phone Number:</strong></label>
+                  <input id="phoneNumber" name="phoneNumber" class="form-control" [(ngModel)]="user.phoneNumber">
+                </div>
               </div>
-            
-            </ng-container>
-          }
+              <div class="card-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-success" (click)="updateProfile()">Update</button>
+                <button type="button" class="btn btn-danger" (click)="handleDeleteProfile()">Delete My Account</button>
+              </div>
+            </form>
+          </ng-container>
+        }
         </div>
-        
-      </div>
     </div>
   </div>
 </div>

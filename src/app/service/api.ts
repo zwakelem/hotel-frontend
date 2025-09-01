@@ -80,6 +80,13 @@ export class Api {
       );
   }
 
+  //TODO implement Partial
+  updateProfile(user: User): Observable<any> {
+    return this.http.put(`${Api.BASE_URL}/users/update`, user, {
+      headers: this.getHeader(),
+    });
+  }
+
   getBookings(): Observable<Booking[]> {
     return this.http
       .get<Response>(`${Api.BASE_URL}/users/bookings`, {

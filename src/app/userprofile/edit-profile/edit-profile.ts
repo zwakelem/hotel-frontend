@@ -6,28 +6,39 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Api } from '../../service/api';
-import { Observable, EMPTY } from 'rxjs';
+import { User } from '../../model/user';
+import { FormsModule } from '@angular/forms';
+import { MessagesService } from '../../service/messages.service';
 
 @Component({
   selector: 'app-edit-profile',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditProfile {
-  user$: Observable<any> = EMPTY;
+  user: User = {} as User;
   error: any = null;
   userExists: boolean = false;
 
   constructor(
     private apiService: Api,
     private router: Router,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private messagesService: MessagesService
   ) {}
 
   ngOnInit(): void {
-    this.user$ = this.apiService.getUserProfile();
+    this.apiService.getUserProfile().subscribe({
+      next: (user) => {
+        this.user = user;
+        this.cdref.markForCheck();
+      },
+      error: (err) => {
+        this.showError(err?.error?.message || 'Error loading user profile');
+      },
+    });
   }
 
   showError(message: string) {
@@ -37,7 +48,21 @@ export class EditProfile {
     }, 4000);
   }
 
-  //TODO implement edit profile functionality
+  updateProfile(): void {
+    console.log('updateProfile');
+    this.apiService.updateProfile(this.user);
+    // this.router.navigate(['/profile']);
+    this.apiService.updateProfile(this.user).subscribe({
+      next: (response) => {
+        this.user = response;
+        this.router.navigate(['/profile']);
+      },
+      error: (err) => {
+        //TODO not tested yet
+        this.messagesService.showErrors(err);
+      },
+    });
+  }
 
   handleDeleteProfile(): void {
     if (!window.confirm('Are you sure you want to delete your account?')) {
