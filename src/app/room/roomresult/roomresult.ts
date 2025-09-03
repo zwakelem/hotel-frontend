@@ -17,6 +17,10 @@ export class Roomresult {
     this.isAdmin = this.apiService.isAdmin();
   }
 
+  ngOnInit(): void {
+    console.log('in the results');
+  }
+
   navigateToEditRoom(roomId: string) {
     this.router.navigate([`/admin/edit-room/${roomId}`]);
   }

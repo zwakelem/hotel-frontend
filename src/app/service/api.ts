@@ -132,7 +132,7 @@ export class Api {
     roomType: string
   ): Observable<any> {
     return this.http.get(`${Api.BASE_URL}/rooms/available`, {
-      headers: this.getHeader(),
+      params: { checkInDate, checkOutDate, roomType },
     });
   }
 

@@ -7,7 +7,7 @@ import { Api } from '../../service/api';
   selector: 'app-navbar',
   imports: [CommonModule, RouterLink, RouterLinkActive, NgIf],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
+  styleUrls: ['./navbar.css'],
 })
 export class Navbar {
   constructor(

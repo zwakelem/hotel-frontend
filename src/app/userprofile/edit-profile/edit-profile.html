@@ -17,7 +17,7 @@
 
         @if (user) {
           <ng-container>
-            <form>
+            <form (ngSubmit)="updateProfile()">
               <div class="card-body">
                 <div class="mb-3">
                   <label for="firstName" class="form-label"><strong>First Name:</strong></label>
@@ -29,15 +29,15 @@
                 </div>
                 <div class="mb-3">
                   <label for="email" class="form-label"><strong>Email:</strong></label>
-                  <input id="email" name="email" class="form-control" [(ngModel)]="user.email" readonly>
+                  <input id="email" name="email" class="form-control" [(ngModel)]="user.email" readonly required>
                 </div>
                 <div class="mb-3">
                   <label for="phoneNumber" class="form-label"><strong>Phone Number:</strong></label>
-                  <input id="phoneNumber" name="phoneNumber" class="form-control" [(ngModel)]="user.phoneNumber">
+                  <input id="phoneNumber" name="phoneNumber" class="form-control" [(ngModel)]="user.phoneNumber" required>
                 </div>
               </div>
               <div class="card-footer d-flex justify-content-between">
-                <button type="button" class="btn btn-success" (click)="updateProfile()">Update</button>
+                <button type="submit" class="btn btn-success">Update</button>
                 <button type="button" class="btn btn-danger" (click)="handleDeleteProfile()">Delete My Account</button>
               </div>
             </form>

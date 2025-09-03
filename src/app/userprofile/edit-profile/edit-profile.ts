@@ -14,7 +14,7 @@ import { MessagesService } from '../../service/messages.service';
   selector: 'app-edit-profile',
   imports: [CommonModule, FormsModule],
   templateUrl: './edit-profile.html',
-  styleUrl: './edit-profile.css',
+  styleUrls: ['./edit-profile.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditProfile {

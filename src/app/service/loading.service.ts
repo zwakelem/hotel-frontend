@@ -6,6 +6,7 @@ import { concatMap, finalize, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LoadingService {
+  //TODO not tested yet
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   constructor() {}

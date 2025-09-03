@@ -6,6 +6,7 @@ import { EditProfile } from './userprofile/edit-profile/edit-profile';
 import { Rooms } from './room/rooms/rooms';
 import { FindBooking } from './find-booking/find-booking';
 import { Login } from './common/login/login';
+import { Home } from './common/home/home';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,11 @@ export const routes: Routes = [
     path: 'register',
     component: Register,
   },
+  {
+    path: 'home',
+    component: Home,
+  },
+
   {
     path: 'profile',
     component: Profile,

@@ -84,6 +84,8 @@ export class Roomsearch {
             );
             return;
           }
+          console.log('rooms found');
+          console.log(resp.rooms);
           this.searchResults.emit(resp.rooms); // Emit the room data
           this.error = ''; // Clear any previous errors
         },
