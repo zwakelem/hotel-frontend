@@ -7,6 +7,7 @@ import { Rooms } from './room/rooms/rooms';
 import { FindBooking } from './find-booking/find-booking';
 import { Login } from './common/login/login';
 import { Home } from './common/home/home';
+import { RoomDetails } from './room/room-details/room-details';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,15 @@ export const routes: Routes = [
   {
     path: 'rooms',
     component: Rooms,
+  },
+  {
+    path: 'rooms-details/:roomId',
+    component: RoomDetails,
+    canActivate: [Guard],
+  },
+  {
+    path: 'find-booking',
+    component: FindBooking,
   },
   {
     path: 'find-booking',
