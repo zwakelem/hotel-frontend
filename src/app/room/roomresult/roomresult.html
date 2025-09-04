@@ -2,7 +2,7 @@
 <section>
   <div *ngIf="roomSearchResults && roomSearchResults.length > 0">
     <div *ngFor="let room of roomSearchResults" class="item" [attr.key]="room.id">
-      <img [src]="room.imageUrl" [alt]="room.roomNumber" />
+      <img src="./images/hotel-room.jpg" [alt]="room.roomNumber" />
 
       <div class="details">
         <h3>{{ room.type }}</h3>
