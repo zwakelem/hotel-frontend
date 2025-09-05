@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Pagination } from '../../pagination/pagination';
 import { Roomresult } from '../roomresult/roomresult';
 import { Roomsearch } from '../roomsearch/roomsearch';
@@ -8,7 +8,7 @@ import { Api } from '../../service/api';
 
 @Component({
   selector: 'app-rooms',
-  imports: [CommonModule, Pagination, Roomresult, Roomsearch, FormsModule],
+  imports: [Pagination, Roomresult, Roomsearch, FormsModule],
   templateUrl: './rooms.html',
   styleUrl: './rooms.css',
 })
@@ -18,14 +18,15 @@ export class Rooms {
   roomTypes: string[] = [];
   selectedRoomType: string = '';
   currentPage: number = 1;
-  roomsPerPage: number = 8;
+  roomsPerPage: number = 2;
   error: any = null;
 
-  constructor(private apiService: Api) {}
+  constructor(private apiService: Api, private changeRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.fetchRooms();
     this.fetchRoomTypes();
+    this.changeRef.detectChanges();
   }
 
   fetchRooms() {

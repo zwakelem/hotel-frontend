@@ -1,3 +1,5 @@
-<div class="spinner-container" *ngIf="loadingService.loading$ | async">
+@if (loadingService.loading$ | async) {
+  <div class="spinner-container">
     <div class="custom-spinner"></div>
-</div>
+  </div>
+}

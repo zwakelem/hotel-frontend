@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Api } from '../../service/api';
 
 @Component({
   selector: 'app-roomsearch',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './roomsearch.html',
   styleUrl: './roomsearch.css',
 })

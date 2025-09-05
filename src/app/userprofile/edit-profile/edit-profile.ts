@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,7 +12,7 @@ import { MessagesService } from '../../service/messages.service';
 
 @Component({
   selector: 'app-edit-profile',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './edit-profile.html',
   styleUrls: ['./edit-profile.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

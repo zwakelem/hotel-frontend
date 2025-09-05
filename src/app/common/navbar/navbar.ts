@@ -1,11 +1,11 @@
-import { CommonModule, NgIf } from '@angular/common';
+
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Api } from '../../service/api';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink, RouterLinkActive, NgIf],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css'],
 })

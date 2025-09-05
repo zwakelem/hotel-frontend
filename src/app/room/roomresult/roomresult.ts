@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Api } from '../../service/api';
 
 @Component({
   selector: 'app-roomresult',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './roomresult.html',
   styleUrl: './roomresult.css',
 })

@@ -6,13 +6,23 @@
     <li><a class="nav-link active" routerLink="/home" routerLinkActive="active">Home</a></li>
     <li><a class="nav-link" routerLink="/rooms">Rooms</a></li>
     <li><a class="nav-link" routerLink="/find-booking">Find Booking</a></li>
-  
-    <li *ngIf="isCustomer"><a class="nav-link" routerLink="/profile">Profile</a></li>
-    <li *ngIf="isAdmin"><a class="nav-link" routerLink="/admin">Admin</a></li>
-    <li *ngIf="!isAuthenticated"><a class="nav-link" routerLink="/login">Login</a></li>
-    <li *ngIf="!isAuthenticated"><a class="nav-link" routerLink="/register">Register</a></li>
-  
-    <li *ngIf="isAuthenticated" (click)="handleLogout()">Logout</li>
+
+    @if (isCustomer) {
+      <li><a class="nav-link" routerLink="/profile">Profile</a></li>
+    }
+    @if (isAdmin) {
+      <li><a class="nav-link" routerLink="/admin">Admin</a></li>
+    }
+    @if (!isAuthenticated) {
+      <li><a class="nav-link" routerLink="/login">Login</a></li>
+    }
+    @if (!isAuthenticated) {
+      <li><a class="nav-link" routerLink="/register">Register</a></li>
+    }
+
+    @if (isAuthenticated) {
+      <li (click)="handleLogout()">Logout</li>
+    }
   </ul>
 </nav>
 
