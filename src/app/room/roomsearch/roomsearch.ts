@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Api } from '../../service/api';
 
 @Component({
   selector: 'app-roomsearch',
-  imports: [FormsModule],
+  imports: [FormsModule, NgbModule],
   templateUrl: './roomsearch.html',
   styleUrl: './roomsearch.css',
 })
@@ -18,12 +19,12 @@ export class Roomsearch {
   roomTypes: string[] = []; // Available room types
   error: any = null;
 
-  minDate: string = new Date().toISOString().split('T')[0]; // Current date in 'yyyy-MM-dd' format
+  minDate: Date = new Date(); // Current date
 
   constructor(private apiService: Api) {}
 
   ngOnInit(): void {
-    this.fetchRoomTypes();
+    // this.fetchRoomTypes();
   }
 
   fetchRoomTypes() {

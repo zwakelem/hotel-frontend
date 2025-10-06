@@ -1,24 +1,24 @@
-<div class="container">
-  @if (error) {
-    <p class="error">{{ error }}</p>
-  }
-  
-  <h2>All Rooms</h2>
+<div class="container mt-5">
 
   <!-- Room Filter Section -->
-  <div class="filter">
-    <label>Filter By Room Type</label>
-    <select [(ngModel)]="selectedRoomType" (change)="handleRoomTypeChange($event)">
-      <option value="">All</option>
-      @for (type of roomTypes; track type) {
-        <option [value]="type">{{ type }}</option>
-      }
-      
-    </select>
+  <div class="row mb-3">
+    <div class="w-75">
+      <div class="d-flex justify-content-between">
+        @for (type of roomTypes; track type) {
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" checked [value]="type" [id]="type">
+          <label class="form-check-label" [for]="type">
+            {{ type }}
+          </label>
+        </div>
+        }
+      </div>
+    </div>
   </div>
 
   <!-- Room Search Component -->
   <app-roomsearch (searchResults)="handleSearchResult($event)"></app-roomsearch>
+
 
   <!-- Room Result Component -->
   <app-roomresult [roomSearchResults]="filteredRooms"></app-roomresult>

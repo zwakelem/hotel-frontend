@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Api } from '../../service/api';
@@ -19,6 +18,7 @@ export class Roomresult {
 
   ngOnInit(): void {
     console.log('in the results');
+    console.log(this.roomSearchResults);
   }
 
   navigateToEditRoom(roomId: string) {

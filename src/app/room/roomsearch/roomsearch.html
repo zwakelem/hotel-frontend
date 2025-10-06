@@ -1,33 +1,64 @@
-<!-- Error Message -->
-@if (error) {
-  <p class="error">{{ error }}</p>
-}
 <div class="container">
-  <!-- Check-in Date Picker -->
-  <div class="field">
-    <label>Check-in Date</label>
-    <input type="date" [(ngModel)]="startDate" [min]="minDate" placeholder="Select Check-In Date" />
-  </div>
+  <div class="row">
 
-  <!-- Check-out Date Picker -->
-  <div class="field">
-    <label>Check-Out Date</label>
-    <input type="date" [(ngModel)]="endDate" [min]="startDate" placeholder="Select Check-Out Date" />
-  </div>
-
-  <!-- Room Type Selection -->
-  <div class="field">
-    <label>Room Type</label>
-    <select [(ngModel)]="roomType">
-      <option disabled value="">Select Room Type</option>
-      @for (type of roomTypes; track type) {
-        <option [value]="type">
-          {{ type }}
-        </option>
+    <!-- Error Message -->
+    
+    <div class="d-flex justify-contents-end w-75">
+      @if (error) {
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <p>{{ error }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
       }
-    </select>
-  </div>
+    </div>
+      
+    <div class="container mt-3">
+      <div class="row">
+    
+        <div class="row">
+          <div class="col-md-3">
+            <!-- Check-in Date Picker -->
+            <div class="input-group mb-3">
+              <input class="form-control" placeholde="yyyy/mm/dd" name="dpci" ngbDatepicker [(ngModel)]="startDate" #dci="ngbDatepicker" />
+              <!--input type="date" id="check-in" [(ngModel)]="startDate" [min]="minDate" placeholder="Select Check-In Date" /-->
+              <button class="btn btn-outline-primary" (click)="dci.toggle()">
+                <span><i class="bi bi-calendar"></i></span>
+              </button>
+            </div>
+          </div>
+    
+          <!-- Check-out Date Picker -->
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <input class="form-control" placeholde="yyyy/mm/dd" name="dpco" ngbDatepicker [(ngModel)]="endDate" #dco="ngbDatepicker" />
+              <button class="btn btn-outline-primary" (click)="dco.toggle()">
+                <span><i class="bi bi-calendar"></i></span>
+              </button>
+            </div>
+          </div>
+    
+          <!-- Room Type Selection -->
+          <div class="col-md-3">
+            <div>
+              <select class="form-select" [(ngModel)]="roomType">
+                <option selected value="">Select Room Type</option>
+                @for (type of roomTypes; track type) {
+                <option [value]="type">
+                  {{ type }}
+                </option>
+                }
+              </select>
+            </div>
+          </div>
+    
+          <!-- Search Button -->
+          <div class="col-md-3">
+            <button class="btn btn-success" (click)="handleSearch()">Search Rooms</button>
+          </div>
+        </div>
+      </div>
+    
+    </div>
 
-  <!-- Search Button -->
-  <button (click)="handleSearch()">Search Rooms</button>
+  </div>
 </div>
