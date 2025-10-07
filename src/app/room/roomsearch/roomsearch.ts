@@ -3,6 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Api } from '../../service/api';
+import { Constants } from '../../util/Constants';
 
 @Component({
   selector: 'app-roomsearch',
@@ -16,7 +17,7 @@ export class Roomsearch {
   startDate: string | null = null; // Store date as string
   endDate: string | null = null; // Store date as string
   roomType: string = ''; // Selected room type
-  roomTypes: string[] = []; // Available room types
+  roomTypes: string[] = Constants.roomTypes; // Available room types
   error: any = null;
 
   minDate: Date = new Date(); // Current date
@@ -24,6 +25,7 @@ export class Roomsearch {
   constructor(private apiService: Api) {}
 
   ngOnInit(): void {
+    console.log('search - on init');
     // this.fetchRoomTypes();
   }
 

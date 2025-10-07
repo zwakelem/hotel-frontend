@@ -1,12 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import CryptoJS from 'crypto-js';
-import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  shareReplay,
+  tap,
+  throwError,
+} from 'rxjs';
 import { User } from '../model/user';
 import { MessagesService } from './messages.service';
 import { LoadingService } from './loading.service';
 import { Response } from '../model/response';
 import { Booking } from '../model/booking';
+import { Constants } from '../util/Constants';
 
 @Injectable({
   providedIn: 'root',
@@ -15,20 +24,22 @@ export class Api {
   private subject = new BehaviorSubject<User | null>(null);
   user$: Observable<User | null> = this.subject.asObservable();
 
-  private static BASE_URL = 'http://localhost:8080/api';
-  private static ENCRYPTION_KEY = 'dennis-encrypt-key';
+  private roomTypeSubject = new BehaviorSubject<string[]>([]);
+  courses$: Observable<string[]> = this.roomTypeSubject.asObservable();
 
   constructor(
     private http: HttpClient,
     private loading: LoadingService,
     private messagesService: MessagesService
-  ) {}
+  ) {
+    this.loadRoomTypes();
+  }
 
   //
   encryptAndSaveToStorage(key: string, value: string): void {
     const encryptedValue = CryptoJS.AES.encrypt(
       value,
-      Api.ENCRYPTION_KEY
+      Constants.ENCRYPTION_KEY
     ).toString();
     localStorage.setItem(key, encryptedValue);
   }
@@ -37,9 +48,10 @@ export class Api {
     try {
       const encryptedValue = localStorage.getItem(key);
       if (!encryptedValue) return null;
-      return CryptoJS.AES.decrypt(encryptedValue, Api.ENCRYPTION_KEY).toString(
-        CryptoJS.enc.Utf8
-      );
+      return CryptoJS.AES.decrypt(
+        encryptedValue,
+        Constants.ENCRYPTION_KEY
+      ).toString(CryptoJS.enc.Utf8);
     } catch (error) {
       return null;
     }
@@ -62,16 +74,16 @@ export class Api {
    *****************************/
 
   registerUser(body: any): Observable<any> {
-    return this.http.post(`${Api.BASE_URL}/auth/register`, body);
+    return this.http.post(`${Constants.BASE_URL}/auth/register`, body);
   }
 
   loginUser(body: any): Observable<any> {
-    return this.http.post(`${Api.BASE_URL}/auth/login`, body);
+    return this.http.post(`${Constants.BASE_URL}/auth/login`, body);
   }
 
   getUserProfile(): Observable<User> {
     return this.http
-      .get<Response>(`${Api.BASE_URL}/users/account`, {
+      .get<Response>(`${Constants.BASE_URL}/users/account`, {
         headers: this.getHeader(),
       })
       .pipe(
@@ -82,14 +94,14 @@ export class Api {
 
   //TODO implement Partial
   updateProfile(user: User): Observable<any> {
-    return this.http.put(`${Api.BASE_URL}/users/update`, user, {
+    return this.http.put(`${Constants.BASE_URL}/users/update`, user, {
       headers: this.getHeader(),
     });
   }
 
   getBookings(): Observable<Booking[]> {
     return this.http
-      .get<Response>(`${Api.BASE_URL}/users/bookings`, {
+      .get<Response>(`${Constants.BASE_URL}/users/bookings`, {
         headers: this.getHeader(),
       })
       .pipe(
@@ -99,7 +111,7 @@ export class Api {
   }
 
   deleteAccount(): Observable<any> {
-    return this.http.delete(`${Api.BASE_URL}/users/delete`, {
+    return this.http.delete(`${Constants.BASE_URL}/users/delete`, {
       headers: this.getHeader(),
     });
   }
@@ -109,21 +121,37 @@ export class Api {
    *****************************/
 
   deleteRoom(roomId: string): Observable<any> {
-    return this.http.delete(`${Api.BASE_URL}/rooms/delete/${roomId}`, {
+    return this.http.delete(`${Constants.BASE_URL}/rooms/delete/${roomId}`, {
       headers: this.getHeader(),
     });
   }
 
   getRoomById(roomId: string): Observable<any> {
-    return this.http.get(`${Api.BASE_URL}/rooms/${roomId}`);
+    return this.http.get(`${Constants.BASE_URL}/rooms/${roomId}`);
   }
 
   getAllRooms(): Observable<any> {
-    return this.http.get(`${Api.BASE_URL}/rooms/all`);
+    return this.http.get(`${Constants.BASE_URL}/rooms/all`);
+  }
+
+  loadRoomTypes() {
+    const loadRoomTypes$ = this.http
+      .get<string[]>(`${Constants.BASE_URL}/rooms/types`)
+      .pipe(
+        map((res) => res),
+        catchError((err) => {
+          const message = 'Could not load room types';
+          this.messagesService.showErrors(message);
+          console.log(message, err);
+          return throwError(err);
+        }),
+        tap((types) => this.roomTypeSubject.next(types))
+      );
+    this.loading.showLoaderUntilCompleted(loadRoomTypes$).subscribe();
   }
 
   getRoomTypes(): Observable<any> {
-    return this.http.get(`${Api.BASE_URL}/rooms/types`);
+    return this.http.get(`${Constants.BASE_URL}/rooms/types`);
   }
 
   getAvailableRooms(
@@ -131,19 +159,19 @@ export class Api {
     checkOutDate: string,
     roomType: string
   ): Observable<any> {
-    return this.http.get(`${Api.BASE_URL}/rooms/available`, {
+    return this.http.get(`${Constants.BASE_URL}/rooms/available`, {
       params: { checkInDate, checkOutDate, roomType },
     });
   }
 
   updateRoom(formData: any): Observable<any> {
-    return this.http.put(`${Api.BASE_URL}/rooms/`, formData, {
+    return this.http.put(`${Constants.BASE_URL}/rooms/`, formData, {
       headers: this.getHeader(),
     });
   }
 
   addRoom(formData: any): Observable<any> {
-    return this.http.post(`${Api.BASE_URL}/rooms/add`, formData, {
+    return this.http.post(`${Constants.BASE_URL}/rooms/add`, formData, {
       headers: this.getHeader(),
     });
   }
@@ -153,25 +181,25 @@ export class Api {
    *****************************/
 
   bookRoom(booking: any): Observable<any> {
-    return this.http.post(`${Api.BASE_URL}/bookings`, booking, {
+    return this.http.post(`${Constants.BASE_URL}/bookings`, booking, {
       headers: this.getHeader(),
     });
   }
 
   getAllBookings(): Observable<any> {
-    return this.http.get(`${Api.BASE_URL}/bookings/all`, {
+    return this.http.get(`${Constants.BASE_URL}/bookings/all`, {
       headers: this.getHeader(),
     });
   }
 
   updateBooking(booking: any): Observable<any> {
-    return this.http.put(`${Api.BASE_URL}/bookings/update`, booking, {
+    return this.http.put(`${Constants.BASE_URL}/bookings/update`, booking, {
       headers: this.getHeader(),
     });
   }
 
   getBookingByReference(bookingCode: string): Observable<any> {
-    return this.http.get(`${Api.BASE_URL}/bookings/${bookingCode}`);
+    return this.http.get(`${Constants.BASE_URL}/bookings/${bookingCode}`);
   }
 
   /*****************************
@@ -179,13 +207,13 @@ export class Api {
    *****************************/
 
   proceedForPayment(body: any): Observable<any> {
-    return this.http.post(`${Api.BASE_URL}/payments/pay`, body, {
+    return this.http.post(`${Constants.BASE_URL}/payments/pay`, body, {
       headers: this.getHeader(),
     });
   }
 
   updateBookingPayment(body: any): Observable<any> {
-    return this.http.put(`${Api.BASE_URL}/payments/update`, body, {
+    return this.http.put(`${Constants.BASE_URL}/payments/update`, body, {
       headers: this.getHeader(),
     });
   }

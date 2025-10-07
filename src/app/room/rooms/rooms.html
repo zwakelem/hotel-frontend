@@ -1,8 +1,8 @@
 <div class="container mt-5">
 
   <!-- Room Filter Section -->
-  <div class="row mb-3">
-    <div class="w-75">
+  <div class="row">
+    <div class="w-75 my-2">
       <div class="d-flex justify-content-between">
         @for (type of roomTypes; track type) {
         <div class="form-check">
@@ -17,8 +17,8 @@
   </div>
 
   <!-- Room Search Component -->
-  <app-roomsearch (searchResults)="handleSearchResult($event)"></app-roomsearch>
 
+  <app-roomsearch (searchResults)="handleSearchResult($event)"></app-roomsearch>
 
   <!-- Room Result Component -->
   <app-roomresult [roomSearchResults]="filteredRooms"></app-roomresult>
@@ -28,5 +28,6 @@
     [roomPerPage]="roomsPerPage"
     [totalRooms]="filteredRooms.length"
     [currentPage]="currentPage"
-    (paginate)="paginate($event)"></app-pagination>
+    (paginate)="paginate($event)">
+  </app-pagination>
 </div>

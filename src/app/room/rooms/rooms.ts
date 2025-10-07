@@ -1,10 +1,10 @@
-
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Pagination } from '../../pagination/pagination';
 import { Roomresult } from '../roomresult/roomresult';
 import { Roomsearch } from '../roomsearch/roomsearch';
 import { FormsModule } from '@angular/forms';
 import { Api } from '../../service/api';
+import { Constants } from '../../util/Constants';
 
 @Component({
   selector: 'app-rooms',
@@ -15,18 +15,18 @@ import { Api } from '../../service/api';
 export class Rooms {
   rooms: any[] = [];
   filteredRooms: any[] = [];
-  roomTypes: string[] = [];
+  roomTypes: string[] = Constants.roomTypes;
   selectedRoomType: string = '';
   currentPage: number = 1;
   roomsPerPage: number = 2;
   error: any = null;
 
-  constructor(private apiService: Api, private changeRef: ChangeDetectorRef) {}
+  constructor(private apiService: Api) {}
 
   ngOnInit() {
+    console.log('rooms - on init');
+    // this.fetchRoomTypes();
     this.fetchRooms();
-    this.fetchRoomTypes();
-    this.changeRef.detectChanges();
   }
 
   fetchRooms() {
@@ -34,6 +34,7 @@ export class Rooms {
       next: (response: any) => {
         this.rooms = response.rooms;
         console.log('rooms size ' + this.rooms.length);
+        console.log(this.rooms);
         this.filteredRooms = response.rooms;
       },
       error: (err) => {
