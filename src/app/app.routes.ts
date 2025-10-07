@@ -8,6 +8,9 @@ import { FindBooking } from './find-booking/find-booking';
 import { Login } from './common/login/login';
 import { Home } from './common/home/home';
 import { RoomDetails } from './room/room-details/room-details';
+import { PaymentComponent } from './payment/payment-component/payment-component';
+import { PaymentSuccessComponent } from './payment/payment-success-component/payment-success-component';
+import { PaymentFailureComponent } from './payment/payment-failure-component/payment-failure-component';
 
 export const routes: Routes = [
   {
@@ -49,6 +52,21 @@ export const routes: Routes = [
   {
     path: 'find-booking',
     component: FindBooking,
+  },
+  {
+    path: 'payment/:bookingReference/:amount',
+    component: PaymentComponent,
+    canActivate: [Guard],
+  },
+  {
+    path: 'payment-success',
+    component: PaymentSuccessComponent,
+    canActivate: [Guard],
+  },
+  {
+    path: 'payment-failure',
+    component: PaymentFailureComponent,
+    canActivate: [Guard],
   },
   {
     path: '**',

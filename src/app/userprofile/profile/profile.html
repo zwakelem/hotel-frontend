@@ -33,7 +33,7 @@
 
             @for(bookingDetails of data.bookings; track bookingDetails.id) {
 
-              <div class="card mb-5 w-100 h-25 my-3">
+              <div class="card mb-5 w-75 h-25 my-3">
                 <div class="row g-0">
               
                   <img [src]="bookingDetails.room.imageUrl" alt="Room Image" class="card-img img-fluid rounded-start">
@@ -74,7 +74,6 @@
                   </div>
                 </div>
               </div>
-
             }
 
           </ng-container>
