@@ -176,6 +176,12 @@ export class Api {
     });
   }
 
+  getRoomsByType(roomType: string): Observable<any> {
+    return this.http.get(`${Constants.BASE_URL}/rooms/roombytype`, {
+      params: { roomType },
+    });
+  }
+
   /*****************************
    * BOOKINGS API
    *****************************/

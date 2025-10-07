@@ -5,6 +5,7 @@
 
     <ng-container>
       @if (roomSearchResults && roomSearchResults.length > 0) {
+        <!-- TODO: review this tracking expression -->
         @for (room of roomSearchResults; track room) {
         <div class="card mb-3 p-0">
           <div class="row g-0">

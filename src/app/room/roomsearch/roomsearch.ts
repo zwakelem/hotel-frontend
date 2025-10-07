@@ -50,6 +50,34 @@ export class Roomsearch {
     }, 5000);
   }
 
+  searchRoomsByType() {
+    if (!this.roomType) {
+      this.apiService.getAllRooms().subscribe({
+        next: (resp: any) => {
+          this.searchResults.emit(resp.rooms); // Emit the room data
+          this.error = ''; // Clear any previous errors
+        },
+        error: (err) => {
+          this.showError(err?.error?.message || 'Error fetching rooms:' + err);
+        },
+      });
+    } else {
+      this.apiService.getRoomsByType(this.roomType).subscribe({
+        next: (resp: any) => {
+          if (resp.rooms.length === 0) {
+            this.showError('No Room of type ' + this.roomType + ' available!!');
+            return;
+          }
+          this.searchResults.emit(resp.rooms); // Emit the room data
+          this.error = ''; // Clear any previous errors
+        },
+        error: (error: any) => {
+          this.showError(error?.error?.message || error.message);
+        },
+      });
+    }
+  }
+
   handleSearch() {
     if (!this.startDate || !this.endDate || !this.roomType) {
       this.showError('Please select all fields');

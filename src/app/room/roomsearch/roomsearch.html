@@ -18,7 +18,13 @@
       <div class="col-md-3 me-4">
         <!-- Check-in Date Picker -->
         <div class="input-group mb-3">
-          <input class="form-control" placeholde="yyyy/mm/dd" name="dpci" ngbDatepicker [(ngModel)]="startDate" #dci="ngbDatepicker" />
+          <input class="form-control" 
+            placeholde="yyyy/mm/dd" 
+            name="dpci" 
+            ngbDatepicker 
+            [(ngModel)]="startDate" 
+            #dci="ngbDatepicker" 
+          />
           <button class="btn btn-primary" (click)="dci.toggle()">
             <span><i class="bi bi-calendar-check-fill"></i></span>
           </button>
@@ -28,7 +34,13 @@
       <!-- Check-out Date Picker -->
       <div class="col-md-3 mx-4">
         <div class="input-group mb-3">
-          <input class="form-control" placeholde="yyyy/mm/dd" name="dpco" ngbDatepicker [(ngModel)]="endDate" #dco="ngbDatepicker" />
+          <input class="form-control" 
+            placeholde="yyyy/mm/dd" 
+            name="dpco" 
+            ngbDatepicker 
+            [(ngModel)]="endDate" 
+            #dco="ngbDatepicker" 
+          />
           <button class="btn btn-primary" (click)="dco.toggle()">
             <span><i class="bi bi-calendar-check-fill"></i></span>
           </button>
@@ -38,8 +50,8 @@
       <!-- Room Type Selection -->
       <div class="col-md-3 mx-4">
         <div>
-          <select class="form-select" [(ngModel)]="roomType">
-            <option selected value="">Select Room Type</option>
+          <select class="form-select" [(ngModel)]="roomType" (change)="searchRoomsByType()">
+            <option selected value="">All Room Types</option>
             @for (type of roomTypes; track type) {
             <option [value]="type">
               {{ type }}
@@ -56,6 +68,4 @@
 
     </div>
   </div>
-      
-    
 </div>
