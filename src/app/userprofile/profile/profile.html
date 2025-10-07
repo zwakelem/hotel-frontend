@@ -1,59 +1,89 @@
-<div class="profile">
-  @if (profileData$ | async; as data) {
-    <ng-container>
-      <h2>Welcome, {{ data.user.firstName }}</h2>
-      <div class="actions">
-        <button (click)="handleEditProfile()">Edit Profile</button>
-        <button class="logout" (click)="handleLogout()">Logout</button>
-      </div>
-    
-      <!-- Error Message -->
-      @if (error) {
-        <p class="error">{{ error }}</p>
-      }
-      
-    
-      <!-- Profile Details -->
-      <div class="details">
-        <h3>My Profile Details</h3>
-        <p><strong>Email:</strong> {{ data.user.email }}</p>
-        <p><strong>Phone Number:</strong> {{ data.user.phoneNumber }}</p>
-      </div>
-    
-      <!-- Bookings Section -->
-      <section>
-        <h3>My Booking History</h3>
-        @if (data.bookings && data.bookings.length > 0) {
-        <div>
-          @for (booking of data.bookings; track booking?.bookingReference) {
-          <div class="item">
-            <p><strong>Booking Code:</strong> {{ booking?.bookingReference }}</p>
-            <p>
-              <strong>Check-in Date:</strong> {{ booking?.checkInDate | date }}
-            </p>
-            <p>
-              <strong>Check-out Date:</strong> {{ booking?.checkOutDate | date }}
-            </p>
-            <p><strong>Payment Status:</strong> {{ booking?.paymentStatus }}</p>
-            <p><strong>Booking Status:</strong> {{ booking?.bookingStatus }}</p>
-            <p><strong>Amount:</strong> {{ booking?.totalPrice | currency }}</p>
-            <p><strong>Room Number:</strong> {{ booking?.room?.roomNumber }}</p>
-            <p><strong>Room Type:</strong> {{ booking?.room?.roomType }}</p>
-            <img [src]="booking?.room?.imageUrl" alt="Room" />
+<div class="container">
+  <div class="row mt-5 d-flex justify-content-center">
+
+    <div>
+      @if (profileData$ | async; as data) {
+        <ng-container>
+          <div class="card w-50">
+            <div class="card-body">
+              <h3 class="card-title h3 blue-color text-center">Welcome, {{ data.user.firstName }}</h3>
+              <!-- Profile Details -->
+              <div class="details">
+                <h3 class="h3">My Profile Details</h3>
+                <p>
+                  <span class="fw-semibold">Email:</span>
+                  <span class="fw-lighter">{{ data.user.email }}</span>
+                </p>
+                <p>
+                  <span class="fw-semibold">Phone Number:</span>
+                  <span class="fw-lighter">{{ data.user.phoneNumber }}</span>
+                </p>
+              </div>
+              <div class="btn-group float-end" role="group">
+                <button type="button" class="btn btn-primary">Edit Profile</button>
+                <button type="button" class="btn btn-danger mx-2">Logout</button>
+              </div>
+            </div>
           </div>
-          }
-        </div>
+
+        </ng-container>
+
+        @if (data.bookings && data.bookings.length > 0) {
+          <ng-container>
+
+            @for(bookingDetails of data.bookings; track bookingDetails.id) {
+
+              <div class="card mb-5 w-100 h-25 my-3">
+                <div class="row g-0">
+              
+                  <img [src]="bookingDetails.room.imageUrl" alt="Room Image" class="card-img img-fluid rounded-start">
+              
+                  <div class="col-md-4 card-img-overlay">
+                    <div class="card-body">
+                      <ul class="list-group list-group-flush bg-transparent">
+                        <li class="list-group-item">
+                          <h5 class="h5 blue-color">Booking Details</h5>
+                          <p><strong>Booking Code:</strong> {{ bookingDetails.bookingReference }}</p>
+                          <p><strong>Check-in Date:</strong> {{ bookingDetails.checkInDate }}</p>
+                          <p><strong>Check-out Date:</strong> {{ bookingDetails.checkOutDate }}</p>
+                          <p><strong>Payment Status:</strong> {{ bookingDetails.paymentStatus }}</p>
+                          <p><strong>Amount:</strong> {{ bookingDetails.totalPrice }}</p>
+                          <p><strong>Booking Status:</strong> {{ bookingDetails.bookingStatus }}</p>
+                        </li>
+                        <li class="list-group-item">
+                          <h5 class="h5 blue-light-color">Booker Details</h5>
+                          <div>
+                            <p><strong>First Name:</strong> {{ bookingDetails.user.firstName }}</p>
+                            <p><strong>Last Name:</strong> {{ bookingDetails.user.lastName }}</p>
+                            <p><strong>Email:</strong> {{ bookingDetails.user.email }}</p>
+                            <p>
+                              <strong>Phone Number:</strong> {{ bookingDetails.user.phoneNumber }}
+                            </p>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <h5 class="h5 orange-color">Room Details</h5>
+                          <div>
+                            <p><strong>Room Number:</strong> {{ bookingDetails.room.roomNumber }}</p>
+                            <p><strong>Room Type:</strong> {{ bookingDetails.room.roomType }}</p>
+                            <p><strong>Room Capacity:</strong> {{ bookingDetails.room.capacity }}</p>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            }
+
+          </ng-container>
+          
         } @else {
-        <div>
-          <p>No bookings found.</p>
-        </div>
+          <p class="fw-semibold">You have no booking history</p>
         }
-      </section>
-    </ng-container>
-  } @else {
-    <!-- Loading Indicator -->
-    <ng-container>
-      <p>Loading profile...</p>
-    </ng-container>
-  }
+      
+      }
+    </div>
+  </div>
 </div>

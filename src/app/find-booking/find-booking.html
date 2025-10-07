@@ -1,1 +1,83 @@
-<p>find-booking works!</p>
+<div class="container">
+
+  <h2 class="h2 text-center mt-5">Find Booking</h2>
+  <!-- Error Message -->
+  <div class="row w-100 my-3">
+    <!-- Error Message -->
+    <div class="d-flex justify-contents-end px-0">
+      @if (error) {
+      <div class="alert alert-danger alert-dismissible fade show w-100 p-0" role="alert">
+        <p class="text-center pt-3">{{ error }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="row mb-3">
+    <div class="d-flex justify-content-center w-50">
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Enter your booking confirmation code"
+        [(ngModel)]="confirmationCode"
+        required />
+      <button class="btn btn-primary ms-4" (click)="handleSearch()">Find</button>
+    </div>
+  </div>
+
+  <!-- Booking Details -->
+  <ng-container>
+    @if(bookingDetails) {
+
+      <div class="card mb-5 w-100 h-25">
+        <div class="row g-0">
+      
+          <img [src]="bookingDetails.room.imageUrl" alt="Room Image" class="card-img img-fluid rounded-start">
+      
+          <div class="col-md-4 card-img-overlay">
+            <div class="card-body">
+              <ul class="list-group list-group-flush bg-transparent" >
+                <li class="list-group-item">
+                  <h5 class="h5 blue-color">Booking Details</h5>
+                  <p><strong>Booking Code:</strong> {{ bookingDetails.bookingReference }}</p>
+                  <p><strong>Check-in Date:</strong> {{ bookingDetails.checkInDate }}</p>
+                  <p><strong>Check-out Date:</strong> {{ bookingDetails.checkOutDate }}</p>
+                  <p><strong>Payment Status:</strong> {{ bookingDetails.paymentStatus }}</p>
+                  <p><strong>Amount:</strong> {{ bookingDetails.totalPrice }}</p>
+                  <p><strong>Booking Status:</strong> {{ bookingDetails.bookingStatus }}</p>
+                </li>
+                <li class="list-group-item">
+                  <h5 class="h5 blue-light-color">Booker Details</h5>
+                  <div>
+                    <p><strong>First Name:</strong> {{ bookingDetails.user.firstName }}</p>
+                    <p><strong>Last Name:</strong> {{ bookingDetails.user.lastName }}</p>
+                    <p><strong>Email:</strong> {{ bookingDetails.user.email }}</p>
+                    <p>
+                      <strong>Phone Number:</strong> {{ bookingDetails.user.phoneNumber }}
+                    </p>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <h5 class="h5 orange-color">Room Details</h5>
+                  <div>
+                    <p><strong>Room Number:</strong> {{ bookingDetails.room.roomNumber }}</p>
+                    <p><strong>Room Type:</strong> {{ bookingDetails.room.roomType }}</p>
+                    <p><strong>Room Capacity:</strong> {{ bookingDetails.room.capacity }}</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    }
+  </ng-container>
+
+  <hr />
+  <hr />
+  <hr />
+    
+</div>

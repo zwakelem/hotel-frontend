@@ -1,14 +1,15 @@
-.error {
-  color: red;
-  text-align: center;
-  font-size: 1.2rem;
-  margin: 1rem;
+.orange-color {
+  color: #FF7F50;
 }
 
-.success {
-  color: #4caf50;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 1rem;
+.blue-light-color {
+  color: #00ddff;
+}
+
+.blue-color {
+  color: #007F86;
+}
+
+.red-color {
+  color: #901956;
 }
