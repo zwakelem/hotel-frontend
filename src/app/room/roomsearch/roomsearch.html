@@ -2,11 +2,10 @@
 
   <div class="row w-100 my-3">
     <!-- Error Message -->
-    <div class="d-flex justify-contents-end w-100">
+    <div class="d-flex justify-contents-end px-0">
       @if (error) {
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <!--p>{{ error }}</p-->
-        <p>This is my error</p>
+      <div class="alert alert-danger alert-dismissible fade show w-100 p-0" role="alert">
+        <p class="text-center pt-3">{{ error }}</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       }
@@ -14,9 +13,9 @@
   </div>
       
   <div class="row">
-    <div class="d-flex justify-content-between w-100">
+    <div class="d-flex justify-content-start w-100 px-0">
 
-      <div class="col-md-3 mx-3">
+      <div class="col-md-3 me-4">
         <!-- Check-in Date Picker -->
         <div class="input-group mb-3">
           <input class="form-control" placeholde="yyyy/mm/dd" name="dpci" ngbDatepicker [(ngModel)]="startDate" #dci="ngbDatepicker" />
@@ -27,7 +26,7 @@
       </div>
 
       <!-- Check-out Date Picker -->
-      <div class="col-md-3 mx-3">
+      <div class="col-md-3 mx-4">
         <div class="input-group mb-3">
           <input class="form-control" placeholde="yyyy/mm/dd" name="dpco" ngbDatepicker [(ngModel)]="endDate" #dco="ngbDatepicker" />
           <button class="btn btn-primary" (click)="dco.toggle()">
@@ -37,7 +36,7 @@
       </div>
 
       <!-- Room Type Selection -->
-      <div class="col-md-3 mx-3">
+      <div class="col-md-3 mx-4">
         <div>
           <select class="form-select" [(ngModel)]="roomType">
             <option selected value="">Select Room Type</option>
@@ -51,7 +50,7 @@
       </div>
 
       <!-- Search Button -->
-      <div class="col-md-3 mx-3">
+      <div class="col-md-3 ms-4">
         <button class="btn btn-success" (click)="handleSearch()">Search Rooms</button>
       </div>
 
