@@ -4,13 +4,13 @@
       <div class="col-12 col-sm-8 col-md-6 col-lg-4 w-75">
         <div class="card shadow-sm">
           <div class="card-body">
-            <h3 class="card-title h3 blue-color text-center">
+            <h2 class="card-title h3 blue-color text-center">
               Welcome, {{ user.firstName }}
-            </h3>
+            </h2>
 
             <!-- Profile Details -->
             <div>
-              <h3 class="h3">My Profile Details</h3>
+              <h4 class="h3">My Profile Details</h4>
               <p>
                 <span class="fw-semibold">Email:</span>
                 <span class="fw-lighter">{{ user.email }}</span>
@@ -32,10 +32,9 @@
   </ng-container>
 }
 
-<h2 class="h2 text-center mt-3">Booking History</h2>
-      
 @if (bookings) {
   <ng-container class="min-vh-25">
+    <h3 class="h3 text-center mt-3">Booking History</h3>
     <div class="row w-75 center-item">
       <app-booking-list-component [bookingList]="bookings"></app-booking-list-component>
     </div>
