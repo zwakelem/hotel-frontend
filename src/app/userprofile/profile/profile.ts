@@ -7,11 +7,6 @@ import { Booking } from '../../model/booking';
 import { User } from '../../model/user';
 import { BookingListComponent } from '../../booking/booking-list-component/booking-list-component';
 
-interface ProfileData {
-  user: User;
-  bookings: Booking[];
-}
-
 @Component({
   selector: 'app-profile',
   imports: [CommonModule, BookingListComponent],
@@ -19,23 +14,19 @@ interface ProfileData {
   styleUrl: './profile.css',
 })
 export class Profile implements OnInit {
-  profileData$: Observable<ProfileData> = EMPTY;
+  user: User | null = null;
+  bookings: Booking[] = [];
   error: any = null;
 
   constructor(private apiService: Api, private router: Router) {}
 
   ngOnInit(): void {
-    const user$: Observable<User> = this.apiService.getUserProfile();
-    const bookings$: Observable<Booking[]> = this.apiService.getBookings();
-    this.profileData$ = combineLatest([user$, bookings$]).pipe(
-      map(([user, bookings]) => {
-        return {
-          user,
-          bookings,
-        };
-      }),
-      tap(console.log)
-    );
+    this.apiService.getUserProfile().subscribe((data: User) => {
+      this.user = data;
+    });
+    this.apiService.getBookings().subscribe((data: Booking[]) => {
+      this.bookings = data;
+    });
   }
 
   showError(message: string) {

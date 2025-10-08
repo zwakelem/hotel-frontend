@@ -1,12 +1,11 @@
-<div class="container min-vh-100 d-flex justify-content-center mt-5">
-  <div class="col-12 col-sm-8 col-md-6 col-lg-4 w-75">
-
-    @if (profileData$ | async; as data) {
-      <ng-container>
+@if (user) {
+  <ng-container>
+    <div class="container d-flex justify-content-center mt-5">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 w-75">
         <div class="card shadow-sm">
           <div class="card-body">
             <h3 class="card-title h3 blue-color text-center">
-              Welcome, {{ data.user.firstName }}
+              Welcome, {{ user.firstName }}
             </h3>
 
             <!-- Profile Details -->
@@ -14,11 +13,11 @@
               <h3 class="h3">My Profile Details</h3>
               <p>
                 <span class="fw-semibold">Email:</span>
-                <span class="fw-lighter">{{ data.user.email }}</span>
+                <span class="fw-lighter">{{ user.email }}</span>
               </p>
               <p>
                 <span class="fw-semibold">Phone Number:</span>
-                <span class="fw-lighter">{{ data.user.phoneNumber }}</span>
+                <span class="fw-lighter">{{ user.phoneNumber }}</span>
               </p>
             </div>
             <div class="btn-group float-end" role="group">
@@ -28,22 +27,24 @@
 
           </div>
         </div>
-      </ng-container>
+      </div>
+    </div>
+  </ng-container>
+}
 
-      @if (data.bookings && data.bookings.length > 0) {
-
-        <ng-container>
-          @for(bookings of data.bookings; track bookings.id) {
-            <app-booking-list-component [bookingList]="bookings"></app-booking-list-component>
-          }
-        </ng-container>
+<h2 class="h2 text-center mt-3">Booking History</h2>
       
-      } @else {
-        <p class="fw-semibold">You have no booking history</p>
-      }
-    }
-  </div>
-</div>
+@if (bookings) {
+  <ng-container class="min-vh-25">
+    <div class="row w-75 center-item">
+      <app-booking-list-component [bookingList]="bookings"></app-booking-list-component>
+    </div>
+      
+  </ng-container>
+
+} @else {
+  <p class="fw-semibold">You have no booking history</p>
+}
 
 
 
