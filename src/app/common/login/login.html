@@ -2,7 +2,9 @@
   <div class="col-12 col-sm-8 col-md-6 col-lg-4">
     <div class="card shadow-sm">
       <div class="card-body">
-        <h3 class="card-title text-center mb-3 h3">Sign in to <span class="orange-color">Simple Stay</span></h3>
+        <h3 class="card-title text-center mb-3 h3">
+          Sign in to <span class="orange-color">Simple Stay</span>
+        </h3>
 
         @if (error) {
           <div class="alert alert-danger" role="alert">
@@ -10,53 +12,34 @@
           </div>
         }
 
-        <form #loginForm="ngForm" (ngSubmit)="handleSubmit()">
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
+        <form (ngSubmit)="handleSubmit()">
+
+          <div class="form-floating mb-3">
             <input
-              id="email"
               name="email"
               type="email"
               class="form-control"
-              placeholder="your@email.com"
-              required
-              email
               [(ngModel)]="formData.email"
-              #emailModel="ngModel"
-              />
-              @if(emailModel.invalid && emailModel.touched) {
-                <div class="invalid-feedback">
-                  Please enter a valid email address.
-                </div>
-              }
+              required
+              placeholder="your@email.com"/>
+            <label class="form-label">email</label>
           </div>
 
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+          <div class="form-floating mb-3">
             <input
-              id="password"
               name="password"
               type="password"
               class="form-control"
-              placeholder="Password"
-              required
-              minlength="6"
               [(ngModel)]="formData.password"
-              #pwdModel="ngModel"
-              />
-              @if(pwdModel.invalid && pwdModel.touched) {
-                <div class="invalid-feedback">
-                  Password is required (min 6 characters).
-                </div>
-              }
-            
+              required
+              placeholder="your@email.com">
+            <label class="form-label">password</label>
           </div>
 
           <div class="d-grid gap-2">
             <button
               type="submit"
-              class="btn btn-primary"
-              [disabled]="loginForm.invalid">
+              class="btn btn-primary">
               Login
             </button>
           </div>
