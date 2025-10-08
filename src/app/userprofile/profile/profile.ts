@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable, EMPTY, combineLatest, tap, map } from 'rxjs';
 import { Booking } from '../../model/booking';
 import { User } from '../../model/user';
+import { BookingListComponent } from '../../booking/booking-list-component/booking-list-component';
 
 interface ProfileData {
   user: User;
@@ -13,7 +14,7 @@ interface ProfileData {
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule],
+  imports: [CommonModule, BookingListComponent],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
