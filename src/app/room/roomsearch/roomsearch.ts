@@ -21,8 +21,8 @@ export class Roomsearch {
   @Output() searchResults = new EventEmitter<Room[]>(); // Emit the results
   @Output() filterByTypesEvent = new EventEmitter<string>(); // Emit the results
 
-  startDate: string | null = null; // Store date as string
-  endDate: string | null = null; // Store date as string
+  startDate: NgbDateStruct | null = null;
+  endDate: NgbDateStruct | null = null;
   roomType: string = ''; // Selected room type
   roomTypes: string[] = Constants.roomTypes; // Available room types
   error: any = null;
@@ -32,6 +32,9 @@ export class Roomsearch {
     month: new Date().getMonth() + 1, // Add 1 because native Date.getMonth() is 0-indexed
     day: new Date().getDate(),
   }; // Current date
+
+  // TODO: set max date in the calender
+  maxDate: null = null;
 
   constructor(private apiService: ApiService, private calendar: NgbCalendar) {}
 
@@ -100,8 +103,8 @@ export class Roomsearch {
     }
 
     // Convert startDate and endDate from string to Date
-    const formattedStartDate = new Date(this.startDate);
-    const formattedEndDate = new Date(this.endDate);
+    const formattedStartDate = this.parseDate(this.startDate);
+    const formattedEndDate = this.parseDate(this.endDate);
 
     // Check if the dates are valid
     if (
@@ -139,5 +142,9 @@ export class Roomsearch {
           this.showError(error?.error?.message || error.message);
         },
       });
+  }
+
+  parseDate(date: NgbDateStruct): Date {
+    return new Date(date.year, date.month - 1, date.day);
   }
 }

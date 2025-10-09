@@ -36,7 +36,9 @@
   <ng-container class="min-vh-25">
     <h3 class="h3 text-center mt-3">Booking History</h3>
     <div class="row w-75 center-item">
-      <app-booking-list-component [bookingList]="bookings"></app-booking-list-component>
+      @for(booking of bookings; track booking.id) {
+        <app-booking-list-component [bookingDetails]="booking"></app-booking-list-component>
+      }  
     </div>
       
   </ng-container>

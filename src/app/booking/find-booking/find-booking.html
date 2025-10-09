@@ -28,10 +28,9 @@
   </div>
 
   <!-- Booking Details -->
-  <ng-container>
-    @if(bookingDetails) {
-      <app-booking-list-component [bookingList]="bookingDetails"></app-booking-list-component>
-    }
-  </ng-container>
-    
+  @if(bookingDetails$ | async; as booking) {
+    <ng-container>
+      <app-booking-list-component [bookingDetails]="booking"></app-booking-list-component>
+    </ng-container>
+  }
 </div>

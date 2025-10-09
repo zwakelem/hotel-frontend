@@ -21,11 +21,12 @@ export class Roomresult {
 
   ngOnInit(): void {}
 
-  navigateToEditRoom(roomId: string) {
+  navigateToEditRoom(roomId: number) {
     this.router.navigate([`/admin/edit-room/${roomId}`]);
   }
 
-  navigateToRoomDetails(roomId: string) {
+  navigateToRoomDetails(roomId: number) {
+    console.log('room id' + roomId);
     this.router.navigate([`/rooms-details/${roomId}`]);
   }
 }

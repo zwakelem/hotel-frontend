@@ -10,5 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class BookingListComponent {
   @Input()
-  bookingList: Booking[] = [];
+  bookingDetails: Booking | null = null;
 }

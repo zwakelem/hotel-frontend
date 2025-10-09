@@ -1,5 +1,5 @@
 
-@for(bookingDetails of bookingList; track bookingDetails.id) {
+@if(bookingDetails) {
   
   <div class="mt-5 p-0 min-vh-50">
     <div class="row g-0 shadow">
@@ -8,7 +8,7 @@
         <img [src]="bookingDetails.room.imageUrl" class="img-fluid rounded">
       </div>
 
-      <div class="col ms-5">
+      <div class="col ms-3">
         <h5 class="h5 blue-color my-3">Booking Details</h5>
         <p><strong>Booking Code:</strong> {{ bookingDetails.bookingReference }}</p>
         <p><strong>Check-in Date:</strong> {{ bookingDetails.checkInDate }}</p>
@@ -17,6 +17,7 @@
         <p><strong>Amount:</strong> {{ bookingDetails.totalPrice }}</p>
         <p><strong>Booking Status:</strong> {{ bookingDetails.bookingStatus }}</p>
       </div>
+      <div class="vr mx-3"></div>
 
       <div class="col">
         <h5 class="h5 red-color my-3">Booker Details</h5>
@@ -25,6 +26,8 @@
         <p><strong>Email:</strong> {{ bookingDetails.user.email }}</p>
         <p><strong>Phone Number:</strong> {{ bookingDetails.user.phoneNumber }}</p>
       </div>
+      <div class="vr mx-3"></div>
+
       <div class="col">
         <h5 class="h5 orange-color my-3">Room Details</h5>
         <p><strong>Room Number:</strong> {{ bookingDetails.room.roomNumber }}</p>
@@ -34,6 +37,6 @@
 
     </div>
   </div>
-} @empty {
+} @else {
   <p class="h4">No bookings to display!!</p>
 }

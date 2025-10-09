@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../service/api';
 import { BookingListComponent } from '../booking-list-component/booking-list-component';
 import { Booking } from '../../model/booking';
+import { EMPTY, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-find-booking',
@@ -15,7 +16,7 @@ export class FindBooking {
   constructor(private apiService: ApiService) {}
 
   confirmationCode: string = '';
-  bookingDetails: Booking[] = [];
+  bookingDetails$: Observable<Booking> = EMPTY;
   error: any = null;
 
   handleSearch() {
@@ -24,15 +25,9 @@ export class FindBooking {
       return;
     }
 
-    this.apiService.getBookingByReference(this.confirmationCode).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.bookingDetails = [res];
-      },
-      error: (err) => {
-        this.showError(err?.error.message || 'Error fetching booking details');
-      },
-    });
+    this.bookingDetails$ = this.apiService.getBookingByReference(
+      this.confirmationCode
+    );
   }
 
   showError(err: any): void {

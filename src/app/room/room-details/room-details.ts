@@ -36,24 +36,9 @@ export class RoomDetails {
   ngOnInit() {
     console.log('RoomDetails - onInit');
     this.roomId = this.route.snapshot.paramMap.get('roomId');
-    console.log(this.roomId);
-    if (this.roomId) {
-      this.fetchRoomDetails(this.roomId);
-    }
-
-    const room$ = this.apiService.getRoomById(this.roomId);
-  }
-
-  fetchRoomDetails(roomId: string): void {
-    this.apiService.getRoomById(roomId).subscribe({
-      next: (res: any) => {
-        console.log('fetchRoomDetails');
-        console.log(res);
-        this.room = res.room;
-      },
-      error: (err) => {
-        this.showError(err?.error?.message || 'Error getting room:' + err);
-      },
+    this.room$ = this.apiService.getRoomById(this.roomId);
+    this.room$.subscribe((res) => {
+      this.room = res;
     });
   }
 
@@ -82,7 +67,8 @@ export class RoomDetails {
       Math.abs((checkOut.getTime() - checkIn.getTime()) / oneDay)
     );
     this.totalDaysToStay = totalDays;
-    return this.room ? this.room.pricePerNight * totalDays : 0;
+    return 0;
+    // return this.room$ ? this.room$.pricePerNight * totalDays : 0;
   }
 
   handleConfirmation(): void {

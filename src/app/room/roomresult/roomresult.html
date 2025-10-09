@@ -17,11 +17,11 @@
         
                 <div class="align-bottom">
                   <!-- Conditionally render button based on admin status -->
-                  @if (!isAdmin) {
-                  <button class="btn btn-dark my-1" (click)="navigateToEditRoom(`room.id`)">Edit Room</button>
+                  @if (isAdmin) {
+                  <button class="btn btn-dark my-1" (click)="navigateToEditRoom(room.id)">Edit Room</button>
                   }
                   @if (!isAdmin) {
-                  <button class="btn btn-info mx-2" (click)="navigateToRoomDetails(`room.id`)">View / Book Now</button>
+                  <button class="btn btn-info mx-2" (click)="navigateToRoomDetails(room.id)">View / Book Now</button>
                   }
                 </div>
               </div>
