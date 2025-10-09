@@ -5,10 +5,15 @@ import { Room } from '../../model/room';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EMPTY, Observable } from 'rxjs';
+import {
+  NgbDatepickerModule,
+  NgbDateStruct,
+  NgbModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-room-details',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbModule, NgbDatepickerModule],
   templateUrl: './room-details.html',
   styleUrl: './room-details.css',
 })
@@ -16,16 +21,20 @@ export class RoomDetails {
   room$: Observable<Room> = EMPTY;
   room: Room | null = null;
   roomId: any = '';
-  checkInDate: Date | null = null;
-  checkOutDate: Date | null = null;
+  checkInDate: NgbDateStruct = this.todaysDate();
+  checkOutDate: NgbDateStruct = this.todaysDate();
   totalPrice: number = 0;
   totalDaysToStay: number = 0;
   showDatePicker: boolean = false;
   showBookingPreview: boolean = false;
   message: any = null;
   error: any = null;
+
   // gets today's date
-  minDate: string = new Date().toISOString().split('T')[0];
+  minDate: NgbDateStruct = this.todaysDate(); // Current date
+
+  // TODO: set max date in the calender
+  maxDate: Date | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -54,8 +63,8 @@ export class RoomDetails {
       return 0;
     }
 
-    const checkIn = new Date(this.checkInDate);
-    const checkOut = new Date(this.checkOutDate);
+    const checkIn = this.parseDate(this.checkInDate);
+    const checkOut = this.parseDate(this.checkOutDate);
 
     if (isNaN(checkIn.getTime()) || isNaN(checkOut.getTime())) {
       this.showError('Invalid date selected!!');
@@ -84,12 +93,8 @@ export class RoomDetails {
   acceptBooking(): void {
     if (!this.room) return;
 
-    const formarttedCheckInDate = this.checkInDate
-      ? new Date(this.checkInDate).toLocaleDateString('en-CA')
-      : '';
-    const formarttedCheckOutDate = this.checkOutDate
-      ? new Date(this.checkOutDate).toLocaleDateString('en-CA')
-      : '';
+    const formarttedCheckInDate = this.parseDate(this.checkInDate);
+    const formarttedCheckOutDate = this.parseDate(this.checkOutDate);
 
     const booking = {
       checkInDate: formarttedCheckInDate,
@@ -120,5 +125,17 @@ export class RoomDetails {
 
   get isLoading(): boolean {
     return !this.room;
+  }
+
+  parseDate(date: NgbDateStruct): Date {
+    return new Date(date.year, date.month - 1, date.day);
+  }
+
+  todaysDate(): NgbDateStruct {
+    return {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1, // Add 1 because native Date.getMonth() is 0-indexed
+      day: new Date().getDate(),
+    };
   }
 }
