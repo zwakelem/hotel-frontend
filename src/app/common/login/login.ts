@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ export class Login {
   };
   error: any = null;
 
-  constructor(private apiService: Api, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   async handleSubmit() {
     if (!this.formData.email || !this.formData.password) {

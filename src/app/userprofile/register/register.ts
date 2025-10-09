@@ -1,8 +1,7 @@
-
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +20,7 @@ export class Register {
 
   error: any = null;
 
-  constructor(private apiService: Api, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   handleSubmit() {
     if (

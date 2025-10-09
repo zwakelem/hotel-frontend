@@ -43,7 +43,7 @@ export const routes: Routes = [
   {
     path: 'rooms-details/:roomId',
     component: RoomDetails,
-    canActivate: [Guard],
+    // canActivate: [Guard],
   },
   {
     path: 'find-booking',

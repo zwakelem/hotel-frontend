@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
 import { BookingListComponent } from '../booking-list-component/booking-list-component';
 import { Booking } from '../../model/booking';
 
@@ -12,7 +12,7 @@ import { Booking } from '../../model/booking';
   styleUrl: './find-booking.css',
 })
 export class FindBooking {
-  constructor(private apiService: Api) {}
+  constructor(private apiService: ApiService) {}
 
   confirmationCode: string = '';
   bookingDetails: Booking[] = [];
@@ -26,8 +26,8 @@ export class FindBooking {
 
     this.apiService.getBookingByReference(this.confirmationCode).subscribe({
       next: (res) => {
-        console.log(res.booking);
-        this.bookingDetails = [res.booking];
+        console.log(res);
+        this.bookingDetails = [res];
       },
       error: (err) => {
         this.showError(err?.error.message || 'Error fetching booking details');

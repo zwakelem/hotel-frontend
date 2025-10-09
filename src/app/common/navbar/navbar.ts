@@ -1,7 +1,6 @@
-
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +11,7 @@ import { Api } from '../../service/api';
 export class Navbar {
   constructor(
     private router: Router,
-    private apiService: Api,
+    private apiService: ApiService,
     private cdref: ChangeDetectorRef
   ) {}
 

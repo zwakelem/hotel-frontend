@@ -16,11 +16,12 @@ import { LoadingService } from './loading.service';
 import { Response } from '../model/response';
 import { Booking } from '../model/booking';
 import { Constants } from '../util/Constants';
+import { Room } from '../model/room';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Api {
+export class ApiService {
   private subject = new BehaviorSubject<User | null>(null);
   user$: Observable<User | null> = this.subject.asObservable();
 
@@ -126,12 +127,16 @@ export class Api {
     });
   }
 
-  getRoomById(roomId: string): Observable<any> {
-    return this.http.get(`${Constants.BASE_URL}/rooms/${roomId}`);
+  getRoomById(roomId: string): Observable<Room> {
+    return this.http
+      .get<Response>(`${Constants.BASE_URL}/rooms/${roomId}`)
+      .pipe(map((res) => res['room']));
   }
 
-  getAllRooms(): Observable<any> {
-    return this.http.get(`${Constants.BASE_URL}/rooms/all`);
+  getAllRooms(): Observable<Room[]> {
+    return this.http
+      .get<Response>(`${Constants.BASE_URL}/rooms/all`)
+      .pipe(map((res) => res['rooms']));
   }
 
   loadRoomTypes() {
@@ -151,17 +156,19 @@ export class Api {
   }
 
   getRoomTypes(): Observable<any> {
-    return this.http.get(`${Constants.BASE_URL}/rooms/types`);
+    return this.http.get<Response>(`${Constants.BASE_URL}/rooms/types`);
   }
 
   getAvailableRooms(
     checkInDate: string,
     checkOutDate: string,
     roomType: string
-  ): Observable<any> {
-    return this.http.get(`${Constants.BASE_URL}/rooms/available`, {
-      params: { checkInDate, checkOutDate, roomType },
-    });
+  ): Observable<Room[]> {
+    return this.http
+      .get<Response>(`${Constants.BASE_URL}/rooms/available`, {
+        params: { checkInDate, checkOutDate, roomType },
+      })
+      .pipe(map((res) => res['rooms']));
   }
 
   updateRoom(formData: any): Observable<any> {
@@ -176,10 +183,12 @@ export class Api {
     });
   }
 
-  getRoomsByType(roomType: string): Observable<any> {
-    return this.http.get(`${Constants.BASE_URL}/rooms/roombytype`, {
-      params: { roomType },
-    });
+  getRoomsByType(roomType: string): Observable<Room[]> {
+    return this.http
+      .get<Response>(`${Constants.BASE_URL}/rooms/roombytype`, {
+        params: { roomType },
+      })
+      .pipe(map((res) => res['rooms']));
   }
 
   /*****************************
@@ -192,10 +201,12 @@ export class Api {
     });
   }
 
-  getAllBookings(): Observable<any> {
-    return this.http.get(`${Constants.BASE_URL}/bookings/all`, {
-      headers: this.getHeader(),
-    });
+  getAllBookings(): Observable<Booking[]> {
+    return this.http
+      .get<Response>(`${Constants.BASE_URL}/bookings/all`, {
+        headers: this.getHeader(),
+      })
+      .pipe(map((res) => res['bookings']));
   }
 
   updateBooking(booking: any): Observable<any> {
@@ -204,8 +215,10 @@ export class Api {
     });
   }
 
-  getBookingByReference(bookingCode: string): Observable<any> {
-    return this.http.get(`${Constants.BASE_URL}/bookings/${bookingCode}`);
+  getBookingByReference(bookingCode: string): Observable<Booking> {
+    return this.http
+      .get<Response>(`${Constants.BASE_URL}/bookings/${bookingCode}`)
+      .pipe(map((res) => res['booking']));
   }
 
   /*****************************

@@ -2,8 +2,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
 import { Constants } from '../../util/Constants';
+import { Room } from '../../model/room';
 
 @Component({
   selector: 'app-roomsearch',
@@ -12,7 +13,8 @@ import { Constants } from '../../util/Constants';
   styleUrl: './roomsearch.css',
 })
 export class Roomsearch {
-  @Output() searchResults = new EventEmitter<any[]>(); // Emit the results
+  @Output() searchResults = new EventEmitter<Room[]>(); // Emit the results
+  @Output() filterByTypesEvent = new EventEmitter<string>(); // Emit the results
 
   startDate: string | null = null; // Store date as string
   endDate: string | null = null; // Store date as string
@@ -22,7 +24,7 @@ export class Roomsearch {
 
   minDate: Date = new Date(); // Current date
 
-  constructor(private apiService: Api) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     console.log('search - on init');
@@ -48,6 +50,10 @@ export class Roomsearch {
     setTimeout(() => {
       this.error = null;
     }, 5000);
+  }
+
+  filterByTypes() {
+    this.filterByTypesEvent.emit(this.roomType);
   }
 
   searchRoomsByType() {

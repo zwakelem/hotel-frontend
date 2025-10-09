@@ -5,13 +5,13 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Api } from './api';
+import { ApiService } from './api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Guard implements CanActivate {
-  constructor(private apiService: Api, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

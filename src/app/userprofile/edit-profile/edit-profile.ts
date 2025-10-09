@@ -1,11 +1,10 @@
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
 import { User } from '../../model/user';
 import { FormsModule } from '@angular/forms';
 import { MessagesService } from '../../service/messages.service';
@@ -23,7 +22,7 @@ export class EditProfile {
   userExists: boolean = false;
 
   constructor(
-    private apiService: Api,
+    private apiService: ApiService,
     private router: Router,
     private cdref: ChangeDetectorRef,
     private messagesService: MessagesService

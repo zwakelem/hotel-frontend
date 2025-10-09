@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Room } from '../../model/room';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EMPTY, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-room-details',
@@ -12,6 +13,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './room-details.css',
 })
 export class RoomDetails {
+  room$: Observable<Room> = EMPTY;
   room: Room | null = null;
   roomId: any = '';
   checkInDate: Date | null = null;
@@ -26,21 +28,27 @@ export class RoomDetails {
   minDate: string = new Date().toISOString().split('T')[0];
 
   constructor(
-    private apiService: Api,
+    private apiService: ApiService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit() {
+    console.log('RoomDetails - onInit');
     this.roomId = this.route.snapshot.paramMap.get('roomId');
+    console.log(this.roomId);
     if (this.roomId) {
       this.fetchRoomDetails(this.roomId);
     }
+
+    const room$ = this.apiService.getRoomById(this.roomId);
   }
 
   fetchRoomDetails(roomId: string): void {
     this.apiService.getRoomById(roomId).subscribe({
       next: (res: any) => {
+        console.log('fetchRoomDetails');
+        console.log(res);
         this.room = res.room;
       },
       error: (err) => {

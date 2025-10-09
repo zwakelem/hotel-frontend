@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Api } from '../../service/api';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../service/api';
 import { Router } from '@angular/router';
-import { Observable, EMPTY, combineLatest, tap, map } from 'rxjs';
 import { Booking } from '../../model/booking';
 import { User } from '../../model/user';
 import { BookingListComponent } from '../../booking/booking-list-component/booking-list-component';
@@ -18,7 +17,7 @@ export class Profile implements OnInit {
   bookings: Booking[] = [];
   error: any = null;
 
-  constructor(private apiService: Api, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.apiService.getUserProfile().subscribe((data: User) => {

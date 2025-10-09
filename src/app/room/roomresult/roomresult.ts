@@ -1,31 +1,31 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
+import { EMPTY, Observable, of } from 'rxjs';
+import { Room } from '../../model/room';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-roomresult',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './roomresult.html',
   styleUrl: './roomresult.css',
 })
 export class Roomresult {
-  @Input() roomSearchResults: any[] = [];
+  @Input() roomSearchResults$: Observable<Room[]> = EMPTY;
   isAdmin: boolean;
 
-  constructor(private router: Router, private apiService: Api) {
+  constructor(private router: Router, private apiService: ApiService) {
     this.isAdmin = this.apiService.isAdmin();
   }
 
-  ngOnInit(): void {
-    console.log('in the results');
-    console.log(this.roomSearchResults);
-  }
+  ngOnInit(): void {}
 
   navigateToEditRoom(roomId: string) {
     this.router.navigate([`/admin/edit-room/${roomId}`]);
   }
 
   navigateToRoomDetails(roomId: string) {
-    this.router.navigate([`/room-details/${roomId}`]);
+    this.router.navigate([`/rooms-details/${roomId}`]);
   }
 }

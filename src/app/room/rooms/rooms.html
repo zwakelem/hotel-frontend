@@ -1,34 +1,10 @@
 <div class="container mt-5">
 
-  <!-- Room Filter Section -->
-   <!-- this is not actually required, I can filter in the roomsearch component -->
-  <!--div class="row">
-    <div class="w-75 my-2">
-      <div class="d-flex justify-content-between">
-        @for (type of roomTypes; track type) {
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" checked [value]="type" [id]="type">
-          <label class="form-check-label" [for]="type">
-            {{ type }}
-          </label>
-        </div>
-        }
-      </div>
-    </div>
-  </div -->
-
   <!-- Room Search Component -->
-
-  <app-roomsearch (searchResults)="handleSearchResult($event)"></app-roomsearch>
+  <!--app-roomsearch (searchResults)="handleSearchResult($event)"></app-roomsearch-->
+  <app-roomsearch (filterByTypesEvent)="filterRooms($event)" ></app-roomsearch>
 
   <!-- Room Result Component -->
-  <app-roomresult [roomSearchResults]="filteredRooms"></app-roomresult>
+  <app-roomresult [roomSearchResults$]="filteredRooms$"></app-roomresult>
 
-  <!-- Pagination Component -->
-  <app-pagination
-    [roomPerPage]="roomsPerPage"
-    [totalRooms]="filteredRooms.length"
-    [currentPage]="currentPage"
-    (paginate)="paginate($event)">
-  </app-pagination>
 </div>

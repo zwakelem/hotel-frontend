@@ -3,58 +3,33 @@ import { Pagination } from '../../pagination/pagination';
 import { Roomresult } from '../roomresult/roomresult';
 import { Roomsearch } from '../roomsearch/roomsearch';
 import { FormsModule } from '@angular/forms';
-import { Api } from '../../service/api';
+import { ApiService } from '../../service/api';
 import { Constants } from '../../util/Constants';
+import { EMPTY, Observable } from 'rxjs';
+import { Room } from '../../model/room';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rooms',
-  imports: [Pagination, Roomresult, Roomsearch, FormsModule],
+  imports: [Roomresult, Roomsearch, FormsModule],
   templateUrl: './rooms.html',
   styleUrl: './rooms.css',
 })
 export class Rooms {
-  rooms: any[] = [];
-  filteredRooms: any[] = [];
+  rooms$: Observable<Room[]> = EMPTY;
+  filteredRooms$: Observable<Room[]> = EMPTY;
   roomTypes: string[] = Constants.roomTypes;
   selectedRoomType: string = '';
   currentPage: number = 1;
   roomsPerPage: number = 2;
   error: any = null;
 
-  constructor(private apiService: Api) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     console.log('rooms - on init');
-    // this.fetchRoomTypes();
-    this.fetchRooms();
-  }
-
-  fetchRooms() {
-    this.apiService.getAllRooms().subscribe({
-      next: (response: any) => {
-        this.rooms = response.rooms;
-        console.log('rooms size ' + this.rooms.length);
-        console.log(this.rooms);
-        this.filteredRooms = response.rooms;
-      },
-      error: (err) => {
-        this.showError(err?.error?.message || 'Error fetching rooms:' + err);
-      },
-    });
-  }
-
-  fetchRoomTypes() {
-    this.apiService.getRoomTypes().subscribe({
-      next: (types: string[]) => {
-        this.roomTypes = types;
-        console.log('room types  ' + this.roomTypes);
-      },
-      error: (err) => {
-        this.showError(
-          err?.error?.message || 'Error fetching room types:' + err
-        );
-      },
-    });
+    this.rooms$ = this.apiService.getAllRooms();
+    this.filteredRooms$ = this.rooms$;
   }
 
   showError(msg: string): void {
@@ -64,10 +39,9 @@ export class Rooms {
     }, 5000);
   }
 
-  handleSearchResult(results: any[]) {
-    this.rooms = results;
-    this.filteredRooms = results;
-  }
+  // handleSearchResult(results: any[]) {
+  //   this.filteredRooms$ = results;
+  // }
 
   handleRoomTypeChange(event: any) {
     const selectedType = event.target.value;
@@ -76,33 +50,8 @@ export class Rooms {
   }
 
   filterRooms(selectedType: string) {
-    if (selectedType === '') {
-      this.filteredRooms = this.rooms;
-    } else {
-      this.filteredRooms = this.rooms.filter(
-        (room) => room.roomType === selectedType
-      );
-    }
-    this.currentPage = 1;
-  }
-
-  get indexOfLastRoom() {
-    return this.currentPage * this.roomsPerPage;
-  }
-
-  get indexOfFirstRoom() {
-    return this.indexOfLastRoom - this.roomsPerPage;
-  }
-
-  get currentRooms() {
-    return this.filteredRooms.slice(
-      this.indexOfFirstRoom,
-      this.indexOfLastRoom
+    this.filteredRooms$ = this.rooms$.pipe(
+      map((rooms) => rooms.filter((room) => room.roomType == selectedType))
     );
-  }
-
-  // Pagination function to change page
-  paginate(pageNumber: number) {
-    this.currentPage = pageNumber;
   }
 }
