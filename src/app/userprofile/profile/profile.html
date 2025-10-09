@@ -1,4 +1,4 @@
-@if (user) {
+@if (user$ | async; as user) {
   <ng-container>
     <div class="container d-flex justify-content-center mt-5">
       <div class="col-12 col-sm-8 col-md-6 col-lg-4 w-75">
@@ -30,22 +30,23 @@
       </div>
     </div>
   </ng-container>
-}
 
-@if (bookings) {
+  @if (bookings$ | async; as bookings) {
   <ng-container class="min-vh-25">
     <h3 class="h3 text-center mt-3">Booking History</h3>
     <div class="row w-75 center-item">
       @for(booking of bookings; track booking.id) {
-        <app-booking-list-component [bookingDetails]="booking"></app-booking-list-component>
-      }  
+      <app-booking-list-component [bookingDetails]="booking"></app-booking-list-component>
+      }
     </div>
-      
   </ng-container>
-
-} @else {
+  
+  } @else {
   <p class="fw-semibold">You have no booking history</p>
+  }
 }
+
+
 
 
 

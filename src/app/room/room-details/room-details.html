@@ -8,6 +8,7 @@
   }
 
   @if(room$ | async; as room) {
+    
     <!-- Room Details -->
     <h2 class="room-title">Room Details</h2>
     <img [src]="room?.imageUrl" [alt]="room?.roomType" class="room-image" />

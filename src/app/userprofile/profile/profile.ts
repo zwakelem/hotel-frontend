@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Booking } from '../../model/booking';
 import { User } from '../../model/user';
 import { BookingListComponent } from '../../booking/booking-list-component/booking-list-component';
+import { EMPTY, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -13,19 +14,15 @@ import { BookingListComponent } from '../../booking/booking-list-component/booki
   styleUrl: './profile.css',
 })
 export class Profile implements OnInit {
-  user: User | null = null;
-  bookings: Booking[] = [];
+  user$: Observable<User> = EMPTY;
+  bookings$: Observable<Booking[]> = EMPTY;
   error: any = null;
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
-    this.apiService.getUserProfile().subscribe((data: User) => {
-      this.user = data;
-    });
-    this.apiService.getBookings().subscribe((data: Booking[]) => {
-      this.bookings = data;
-    });
+    this.user$ = this.apiService.getUserProfile();
+    this.bookings$ = this.apiService.getBookings();
   }
 
   showError(message: string) {
