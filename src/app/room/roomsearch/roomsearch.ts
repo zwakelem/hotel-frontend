@@ -1,14 +1,19 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCalendar,
+  NgbDatepickerModule,
+  NgbDateStruct,
+  NgbModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../service/api';
 import { Constants } from '../../util/Constants';
 import { Room } from '../../model/room';
 
 @Component({
   selector: 'app-roomsearch',
-  imports: [FormsModule, NgbModule],
+  imports: [FormsModule, NgbModule, NgbDatepickerModule],
   templateUrl: './roomsearch.html',
   styleUrl: './roomsearch.css',
 })
@@ -22,13 +27,17 @@ export class Roomsearch {
   roomTypes: string[] = Constants.roomTypes; // Available room types
   error: any = null;
 
-  minDate: Date = new Date(); // Current date
+  minDate: NgbDateStruct = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1, // Add 1 because native Date.getMonth() is 0-indexed
+    day: new Date().getDate(),
+  }; // Current date
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private calendar: NgbCalendar) {}
 
   ngOnInit(): void {
     console.log('search - on init');
-    // this.fetchRoomTypes();
+    this.minDate = this.calendar.getToday();
   }
 
   fetchRoomTypes() {
