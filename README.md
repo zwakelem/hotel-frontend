@@ -6,6 +6,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 - query available rooms functionality
 - scrolling on the Rooms view
+- reactive loading service and error handling
 - implement Admin pages
 - add list of available services per room 
 
