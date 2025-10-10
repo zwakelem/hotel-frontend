@@ -13,3 +13,7 @@ export interface Booking {
   createdAt: Date;
   bookingStatus: string;
 }
+
+export function sortBookingsById(b1: Booking, b2: Booking) {
+  return b1.id - b2.id;
+}

@@ -36,9 +36,16 @@
                   <input id="phoneNumber" name="phoneNumber" class="form-control" [(ngModel)]="user.phoneNumber" required>
                 </div>
               </div>
+
               <div class="card-footer d-flex justify-content-between">
-                <button type="submit" class="btn btn-success">Update</button>
-                <button type="button" class="btn btn-danger" (click)="handleDeleteProfile()">Delete My Account</button>
+                <div class="d-flex justify-content-start">
+                  <button type="button" class="btn btn-danger" (click)="handleDeleteProfile()">Delete My Account</button>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button type="submit" class="btn btn-warning me-2" (click)="handleCancel()">Cancel</button>
+                  <button type="submit" class="btn btn-success" (click)="updateProfile()">Update</button>
+                </div>
+                
               </div>
             </form>
           </ng-container>

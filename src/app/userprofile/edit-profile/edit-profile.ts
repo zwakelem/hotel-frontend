@@ -49,8 +49,6 @@ export class EditProfile {
 
   updateProfile(): void {
     console.log('updateProfile');
-    this.apiService.updateProfile(this.user);
-    // this.router.navigate(['/profile']);
     this.apiService.updateProfile(this.user).subscribe({
       next: (response) => {
         this.user = response;
@@ -76,5 +74,9 @@ export class EditProfile {
         this.showError(err?.error?.message || 'Error deleting account');
       },
     });
+  }
+
+  handleCancel() {
+    this.router.navigate(['/profile']);
   }
 }

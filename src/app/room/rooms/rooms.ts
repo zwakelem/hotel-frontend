@@ -1,13 +1,12 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { Pagination } from '../../pagination/pagination';
+import { Component } from '@angular/core';
 import { Roomresult } from '../roomresult/roomresult';
 import { Roomsearch } from '../roomsearch/roomsearch';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../service/api';
 import { Constants } from '../../util/Constants';
 import { EMPTY, Observable } from 'rxjs';
-import { Room } from '../../model/room';
-import { filter, map } from 'rxjs/operators';
+import { Room, sortRoomsById } from '../../model/room';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rooms',
@@ -28,7 +27,9 @@ export class Rooms {
 
   ngOnInit() {
     console.log('rooms - on init');
-    this.rooms$ = this.apiService.getAllRooms();
+    this.rooms$ = this.apiService
+      .getAllRooms()
+      .pipe(map((rooms) => rooms.sort(sortRoomsById)));
     this.filteredRooms$ = this.rooms$;
   }
 
@@ -39,10 +40,6 @@ export class Rooms {
     }, 5000);
   }
 
-  // handleSearchResult(results: any[]) {
-  //   this.filteredRooms$ = results;
-  // }
-
   handleRoomTypeChange(event: any) {
     const selectedType = event.target.value;
     this.selectedRoomType = selectedType;
@@ -50,8 +47,12 @@ export class Rooms {
   }
 
   filterRooms(selectedType: string) {
-    this.filteredRooms$ = this.rooms$.pipe(
-      map((rooms) => rooms.filter((room) => room.roomType == selectedType))
-    );
+    if (selectedType) {
+      this.filteredRooms$ = this.rooms$.pipe(
+        map((rooms) => rooms.filter((room) => room.roomType == selectedType))
+      );
+    } else {
+      this.filteredRooms$ = this.rooms$;
+    }
   }
 }

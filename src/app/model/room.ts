@@ -7,3 +7,7 @@ export interface Room {
   description: string;
   imageUrl: string;
 }
+
+export function sortRoomsById(r1: Room, r2: Room) {
+  return r1.id - r2.id;
+}

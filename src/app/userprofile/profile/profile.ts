@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../service/api';
 import { Router } from '@angular/router';
-import { Booking } from '../../model/booking';
+import { Booking, sortBookingsById } from '../../model/booking';
 import { User } from '../../model/user';
 import { BookingListComponent } from '../../booking/booking-list-component/booking-list-component';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +22,9 @@ export class Profile implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.apiService.getUserProfile();
-    this.bookings$ = this.apiService.getBookings();
+    this.bookings$ = this.apiService
+      .getBookings()
+      .pipe(map((bookings) => bookings.sort(sortBookingsById)));
   }
 
   showError(message: string) {

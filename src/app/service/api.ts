@@ -93,11 +93,12 @@ export class ApiService {
       );
   }
 
-  //TODO implement Partial
-  updateProfile(user: User): Observable<any> {
-    return this.http.put(`${Constants.BASE_URL}/users/update`, user, {
-      headers: this.getHeader(),
-    });
+  updateProfile(changes: Partial<User>): Observable<any> {
+    return this.http
+      .put(`${Constants.BASE_URL}/users/update`, changes, {
+        headers: this.getHeader(),
+      })
+      .pipe(shareReplay());
   }
 
   getBookings(): Observable<Booking[]> {
@@ -134,9 +135,10 @@ export class ApiService {
   }
 
   getAllRooms(): Observable<Room[]> {
-    return this.http
-      .get<Response>(`${Constants.BASE_URL}/rooms/all`)
-      .pipe(map((res) => res['rooms']));
+    return this.http.get<Response>(`${Constants.BASE_URL}/rooms/all`).pipe(
+      map((res) => res['rooms']),
+      shareReplay()
+    );
   }
 
   loadRoomTypes() {
@@ -188,7 +190,10 @@ export class ApiService {
       .get<Response>(`${Constants.BASE_URL}/rooms/roombytype`, {
         params: { roomType },
       })
-      .pipe(map((res) => res['rooms']));
+      .pipe(
+        map((res) => res['rooms']),
+        shareReplay()
+      );
   }
 
   /*****************************
@@ -206,7 +211,10 @@ export class ApiService {
       .get<Response>(`${Constants.BASE_URL}/bookings/all`, {
         headers: this.getHeader(),
       })
-      .pipe(map((res) => res['bookings']));
+      .pipe(
+        map((res) => res['bookings']),
+        shareReplay()
+      );
   }
 
   updateBooking(booking: any): Observable<any> {
