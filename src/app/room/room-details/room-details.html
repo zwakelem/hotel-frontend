@@ -1,10 +1,10 @@
 @if (room$ | async; as room) {
   <ng-container>
-    <div class="container d-flex justify-content-center align-items-center mt-5">
-      <div class="col-md-6 w-75">
+    <div class="container d-flex justify-content-center align-items-center mt-2">
+      <div class="col-md-6 w-50 overflow-y-auto">
         <div class="card shadow">
           <div class="card-body">
-            <h2 class="card-title h3 blue-color text-center my-3">
+            <h2 class="card-title h3 blue-color text-center my-1">
               ROOM DETAILS
             </h2>
 
@@ -17,7 +17,8 @@
               <p class="my-1 mb-2"><strong>Price:</strong> ${{ room?.pricePerNight }} / night</p>
               <p>{{ room?.description }}</p>
 
-              <button class="btn btn-success p-3 mt-2" (click)="showDatePicker = true">Select Dates</button>
+              <button class="btn btn-success px-5 mt-2" (click)="showDatePicker = true">Select Dates</button>
+              
             </div>
 
             @if (showDatePicker) {

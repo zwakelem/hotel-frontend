@@ -32,9 +32,12 @@ export class Profile implements OnInit {
     }, 4000);
   }
 
-  handleLogout() {
-    this.apiService.logout();
-    this.router.navigate(['/home']);
+  handleLogout(): void {
+    const isLogout = window.confirm('Are you sure you want to logout?');
+    if (isLogout) {
+      this.apiService.logout();
+      this.router.navigate(['/home']);
+    }
   }
 
   handleEditProfile() {
