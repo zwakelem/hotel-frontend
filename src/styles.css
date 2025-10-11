@@ -18,3 +18,8 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.hover-orange:hover {
+  background-color: #FF7F50;
+  cursor: pointer;
+}

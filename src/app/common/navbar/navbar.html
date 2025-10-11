@@ -1,26 +1,26 @@
 <nav class="navbar py-0">
   <div>
-    <a href="/home" class="nav-link" routerLinkActive="active highlight">Simple Stay Hotel</a>
+    <a href="/home" class="nav-link">Simple Stay Hotel</a>
   </div>
   <ul class="nav nav-pills navbar-left">
-    <li><a class="nav-link" routerLink="/rooms" routerLinkActive="active highlight">Rooms</a></li>
-    <li><a class="nav-link" routerLink="/find-booking" routerLinkActive="active highlight">Find Booking</a></li>
+    <li><a class="nav-link" routerLink="/rooms">Rooms</a></li>
+    <li><a class="nav-link" routerLink="/find-booking">Find Booking</a></li>
 
     @if (isCustomer) {
-      <li><a class="nav-link" routerLink="/profile" routerLinkActive="active highlight">Profile</a></li>
+      <li><a class="nav-link" routerLink="/profile">Profile</a></li>
     }
     @if (isAdmin) {
-      <li><a class="nav-link" routerLink="/admin" routerLinkActive="active highlight">Admin</a></li>
+      <li><a class="nav-link" routerLink="/admin">Admin</a></li>
     }
     @if (!isAuthenticated) {
-      <li><a class="nav-link" routerLink="/login" routerLinkActive="active highlight">Login</a></li>
+      <li><a class="nav-link" routerLink="/login">Login</a></li>
     }
     @if (!isAuthenticated) {
-      <li><a class="nav-link" routerLink="/register" routerLinkActive="active highlight">Register</a></li>
+      <li><a class="nav-link" routerLink="/register" >Register</a></li>
     }
 
     @if (isAuthenticated) {
-      <li (click)="handleLogout()">Logout</li>
+      <li><a class="nav-link" (click)="handleLogout()">Logout</a></li>
     }
   </ul>
 </nav>
