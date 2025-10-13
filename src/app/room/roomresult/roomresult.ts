@@ -4,10 +4,11 @@ import { ApiService } from '../../service/api';
 import { EMPTY, Observable, of } from 'rxjs';
 import { Room } from '../../model/room';
 import { CommonModule } from '@angular/common';
+import { LoadingComponent } from '../../common/loading/loading.component';
 
 @Component({
   selector: 'app-roomresult',
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingComponent],
   templateUrl: './roomresult.html',
   styleUrl: './roomresult.css',
 })

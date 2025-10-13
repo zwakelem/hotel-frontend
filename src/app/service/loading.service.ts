@@ -2,15 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { concatMap, finalize, tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class LoadingService {
-  //TODO not tested yet
   private loadingSubject = new BehaviorSubject<boolean>(false);
-
-  constructor() {}
-
   loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
   showLoaderUntilCompleted<T>(obs$: Observable<T>): Observable<T> {
