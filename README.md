@@ -9,6 +9,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 - reactive loading service and error handling
 - implement Admin pages
 - add list of available services per room 
+- add admin components 
 
 ## Development server
 
