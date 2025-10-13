@@ -6,12 +6,6 @@
           Sign in to <span class="orange-color">Simple Stay</span>
         </h3>
 
-        @if (error) {
-          <div class="alert alert-danger" role="alert">
-            {{ error }}
-          </div>
-        }
-
         <form (ngSubmit)="handleSubmit()">
 
           <div class="form-floating mb-3">

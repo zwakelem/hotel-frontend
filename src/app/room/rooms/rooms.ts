@@ -4,10 +4,11 @@ import { Roomsearch } from '../roomsearch/roomsearch';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../service/api';
 import { Constants } from '../../util/Constants';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, throwError } from 'rxjs';
 import { Room, sortRoomsById } from '../../model/room';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { LoadingService } from '../../service/loading.service';
+import { MessagesService } from '../../service/messages.service';
 
 @Component({
   selector: 'app-rooms',
@@ -20,28 +21,27 @@ export class Rooms {
   filteredRooms$: Observable<Room[]> = EMPTY;
   roomTypes: string[] = Constants.roomTypes;
   selectedRoomType: string = '';
-  error: any = null;
 
   constructor(
     private apiService: ApiService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private messageService: MessagesService
   ) {}
 
   ngOnInit() {
     console.log('rooms - on init');
     this.rooms$ = this.loadingService.showLoaderUntilCompleted(
-      this.apiService
-        .getAllRooms()
-        .pipe(map((rooms) => rooms.sort(sortRoomsById)))
+      this.apiService.getAllRooms().pipe(
+        map((rooms) => rooms.sort(sortRoomsById)),
+        catchError((err) => {
+          const message = 'Could not load rooms';
+          this.messageService.showErrors(message);
+          console.log(message, err);
+          return throwError(() => new Error(err));
+        })
+      )
     );
     this.filteredRooms$ = this.rooms$;
-  }
-
-  showError(msg: string): void {
-    this.error = msg;
-    setTimeout(() => {
-      this.error = null;
-    }, 5000);
   }
 
   handleRoomTypeChange(event: any) {

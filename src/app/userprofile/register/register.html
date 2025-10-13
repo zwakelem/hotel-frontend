@@ -4,12 +4,6 @@
       <div class="card-body">
         <h3 class="card-title text-center mb-3 h3 blue-color">Register</h3>
 
-        @if (error) {
-        <div class="alert alert-danger" role="alert">
-          {{ error }}
-        </div>
-        }
-
         <form #loginForm="ngForm" (ngSubmit)="handleSubmit()">
 
           <div class="form-floating mb-3">
@@ -19,9 +13,10 @@
               class="form-control"
               required
               firstName
+              name="firstName"
               placeholder="First Name"
               [(ngModel)]="formData.firstName"
-              #firstNameModel="ngModel">
+              #firstNameModel="ngModel" />
             <label class="form-label">First Name</label>
           </div>
 
@@ -32,9 +27,10 @@
               class="form-control"
               required
               lastName
+              name="lastName"
               placeholder="Last Name"
               [(ngModel)]="formData.lastName"
-              #lastNameModel="ngModel">
+              #lastNameModel="ngModel" />
             <label class="form-label">Last Name</label>
           </div>
 
@@ -45,9 +41,10 @@
               class="form-control"
               required
               email
+              name="email"
               placeholder="email"
               [(ngModel)]="formData.email"
-              #emailModel="ngModel">
+              #emailModel="ngModel" />
             <label class="form-label">email</label>
           </div>
 
@@ -57,23 +54,25 @@
               type="password"
               class="form-control"
               required
-              email
+              password
+              name="password"
               placeholder="password"
               [(ngModel)]="formData.password"
-              #passwordModel="ngModel">
+              #passwordModel="ngModel" />
             <label class="form-label">password</label>
           </div>
 
           <div class="form-floating mb-3">
             <input
               id="phoneNumber"
-              type="tel"
+              type="number"
               class="form-control"
               required
-              email
+              phoneNumber
+              name="phoneNumber"
               placeholder="072 111 3333"
               [(ngModel)]="formData.phoneNumber"
-              #phoneNumberModel="ngModel">
+              #phoneNumberModel="ngModel" />
             <label class="form-label">phone number</label>
           </div>
           
