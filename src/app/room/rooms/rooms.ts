@@ -7,6 +7,7 @@ import { Constants } from '../../util/Constants';
 import { EMPTY, Observable } from 'rxjs';
 import { Room, sortRoomsById } from '../../model/room';
 import { map } from 'rxjs/operators';
+import { LoadingService } from '../../service/loading.service';
 
 @Component({
   selector: 'app-rooms',
@@ -19,17 +20,20 @@ export class Rooms {
   filteredRooms$: Observable<Room[]> = EMPTY;
   roomTypes: string[] = Constants.roomTypes;
   selectedRoomType: string = '';
-  currentPage: number = 1;
-  roomsPerPage: number = 2;
   error: any = null;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit() {
     console.log('rooms - on init');
-    this.rooms$ = this.apiService
-      .getAllRooms()
-      .pipe(map((rooms) => rooms.sort(sortRoomsById)));
+    this.rooms$ = this.loadingService.showLoaderUntilCompleted(
+      this.apiService
+        .getAllRooms()
+        .pipe(map((rooms) => rooms.sort(sortRoomsById)))
+    );
     this.filteredRooms$ = this.rooms$;
   }
 

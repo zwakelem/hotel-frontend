@@ -4,7 +4,7 @@ import { ApiService } from '../../service/api';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css'],
 })

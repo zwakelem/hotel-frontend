@@ -30,7 +30,6 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
-    private loading: LoadingService,
     private messagesService: MessagesService
   ) {
     this.loadRoomTypes();
@@ -154,7 +153,6 @@ export class ApiService {
         }),
         tap((types) => this.roomTypeSubject.next(types))
       );
-    this.loading.showLoaderUntilCompleted(loadRoomTypes$).subscribe();
   }
 
   getRoomTypes(): Observable<any> {
