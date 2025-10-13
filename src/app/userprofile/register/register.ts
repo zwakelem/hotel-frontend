@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../service/api';
+import { MessagesService } from '../../service/messages.service';
 
 @Component({
   selector: 'app-register',
@@ -18,9 +19,11 @@ export class Register {
     password: '',
   };
 
-  error: any = null;
-
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private messagesService: MessagesService
+  ) {}
 
   handleSubmit() {
     if (
@@ -30,7 +33,7 @@ export class Register {
       !this.formData.phoneNumber ||
       !this.formData.password
     ) {
-      this.showError('All fields are required!');
+      this.messagesService.showErrors('All fields are required!');
       return;
     }
 
@@ -39,19 +42,8 @@ export class Register {
         this.router.navigate(['/login']);
       },
       error: (err: any) => {
-        this.showError(
-          err?.error?.message ||
-            err.message ||
-            'Unable to register user: ' + err
-        );
+        this.messagesService.showErrors('Unable to register user!!');
       },
     });
-  }
-
-  showError(message: string) {
-    this.error = message;
-    setTimeout(() => {
-      this.error = null;
-    }, 4000);
   }
 }

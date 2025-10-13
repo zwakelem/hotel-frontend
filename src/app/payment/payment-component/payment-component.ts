@@ -10,6 +10,7 @@ import {
 import { ApiService } from '../../service/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from '../../util/Constants';
+import { MessagesService } from '../../service/messages.service';
 
 @Component({
   selector: 'app-payment-component',
@@ -32,7 +33,8 @@ export class PaymentComponent {
   constructor(
     private apiService: ApiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private messagesService: MessagesService
   ) {}
 
   async ngOnInit() {
@@ -65,18 +67,11 @@ export class PaymentComponent {
         );
       },
       error: (err: any) => {
-        this.showError(
-          err?.error?.message || 'failed to fetch transaction uniwue secrete '
+        this.messagesService.showErrors(
+          'Failed to fetch transaction unique secret!!'
         );
       },
     });
-  }
-
-  showError(msg: any): void {
-    this.error = msg;
-    setTimeout(() => {
-      this.error = '';
-    }, 5000);
   }
 
   ///This is the method to call when a user click on pay now after he has filled his card details
@@ -90,7 +85,9 @@ export class PaymentComponent {
       !this.clientSecret ||
       this.processing
     ) {
-      this.showError('Please fill in your card details properly');
+      this.messagesService.showErrors(
+        'Please fill in your card details properly'
+      );
       return;
     }
 
@@ -114,9 +111,9 @@ export class PaymentComponent {
       console.log('PAYMENT ERROR: ' + error);
       this.processing = false;
       this.handleUpdateBookingPayment('failed', '', error.message); // update the boking status in the backend and send email to the user of the status
-      this.showError(error?.message || error || 'PAYMENT ERROR');
+      this.messagesService.showErrors('PAYMENT ERROR');
     } else {
-      this.showError(
+      this.messagesService.showErrors(
         'Unable to process transaction at the moment. Please Try Again!'
       );
     }
@@ -150,7 +147,7 @@ export class PaymentComponent {
         console.log(res);
       },
       error: (err) => {
-        this.showError(
+        this.messagesService.showErrors(
           err?.error?.message || err?.message || 'Error updating payment status'
         );
         console.error(err);

@@ -7,6 +7,8 @@ import { Booking } from '../../model/booking';
 import { EMPTY, Observable } from 'rxjs';
 import { LoadingService } from '../../service/loading.service';
 import { LoadingComponent } from '../../common/loading/loading.component';
+import { MessagesService } from '../../service/messages.service';
+import { Messages } from '../../common/messages/messages';
 
 @Component({
   selector: 'app-find-booking',
@@ -15,18 +17,21 @@ import { LoadingComponent } from '../../common/loading/loading.component';
   styleUrl: './find-booking.css',
 })
 export class FindBooking {
-  constructor(
-    private apiService: ApiService,
-    private loading: LoadingService
-  ) {}
-
   confirmationCode: string = '';
   bookingDetails$: Observable<Booking> = EMPTY;
-  error: any = null;
+
+  constructor(
+    private apiService: ApiService,
+    private loading: LoadingService,
+    private messagesService: MessagesService
+  ) {}
 
   handleSearch() {
     if (!this.confirmationCode.trim()) {
-      this.showError('Please enter the booking confirmation code');
+      console.log('Please enter the booking confirmation code');
+      this.messagesService.showErrors(
+        'Please enter the booking confirmation code'
+      );
       return;
     }
 
@@ -34,13 +39,5 @@ export class FindBooking {
     this.bookingDetails$ = this.loading.showLoaderUntilCompleted(
       this.apiService.getBookingByReference(this.confirmationCode)
     );
-  }
-
-  showError(err: any): void {
-    console.log(err);
-    this.error = err;
-    setTimeout(() => {
-      this.error = '';
-    }, 4000);
   }
 }

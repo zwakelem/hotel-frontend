@@ -10,6 +10,7 @@ import {
 import { ApiService } from '../../service/api';
 import { Constants } from '../../util/Constants';
 import { Room } from '../../model/room';
+import { MessagesService } from '../../service/messages.service';
 
 @Component({
   selector: 'app-roomsearch',
@@ -36,69 +37,24 @@ export class Roomsearch {
   // TODO: set max date in the calender
   maxDate: null = null;
 
-  constructor(private apiService: ApiService, private calendar: NgbCalendar) {}
+  constructor(
+    private apiService: ApiService,
+    private calendar: NgbCalendar,
+    private messagesService: MessagesService
+  ) {}
 
   ngOnInit(): void {
     console.log('search - on init');
     this.minDate = this.calendar.getToday();
   }
 
-  fetchRoomTypes() {
-    this.apiService.getRoomTypes().subscribe({
-      next: (types: any) => {
-        this.roomTypes = types;
-      },
-      error: (err: any) => {
-        this.showError(
-          err?.error?.message || 'Error Fetching Room Types: ' + err
-        );
-        console.error(err);
-      },
-    });
-  }
-
-  showError(msg: string): void {
-    this.error = msg;
-    setTimeout(() => {
-      this.error = null;
-    }, 5000);
-  }
-
   filterByTypes() {
     this.filterByTypesEvent.emit(this.roomType);
   }
 
-  searchRoomsByType() {
-    if (!this.roomType) {
-      this.apiService.getAllRooms().subscribe({
-        next: (resp: any) => {
-          this.searchResults.emit(resp.rooms); // Emit the room data
-          this.error = ''; // Clear any previous errors
-        },
-        error: (err) => {
-          this.showError(err?.error?.message || 'Error fetching rooms:' + err);
-        },
-      });
-    } else {
-      this.apiService.getRoomsByType(this.roomType).subscribe({
-        next: (resp: any) => {
-          if (resp.rooms.length === 0) {
-            this.showError('No Room of type ' + this.roomType + ' available!!');
-            return;
-          }
-          this.searchResults.emit(resp.rooms); // Emit the room data
-          this.error = ''; // Clear any previous errors
-        },
-        error: (error: any) => {
-          this.showError(error?.error?.message || error.message);
-        },
-      });
-    }
-  }
-
   handleSearch() {
     if (!this.startDate || !this.endDate || !this.roomType) {
-      this.showError('Please select all fields');
+      this.messagesService.showErrors('Please select all fields');
       return;
     }
 
@@ -111,7 +67,7 @@ export class Roomsearch {
       isNaN(formattedStartDate.getTime()) ||
       isNaN(formattedEndDate.getTime())
     ) {
-      this.showError('Invalid date format');
+      this.messagesService.showErrors('Invalid date format');
       return;
     }
 
@@ -128,7 +84,7 @@ export class Roomsearch {
       .subscribe({
         next: (resp: any) => {
           if (resp.rooms.length === 0) {
-            this.showError(
+            this.messagesService.showErrors(
               'Room type not currently available for the selected date'
             );
             return;
@@ -139,7 +95,9 @@ export class Roomsearch {
           this.error = ''; // Clear any previous errors
         },
         error: (error: any) => {
-          this.showError(error?.error?.message || error.message);
+          this.messagesService.showErrors(
+            error?.error?.message || error.message
+          );
         },
       });
   }

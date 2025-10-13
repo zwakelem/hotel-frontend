@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../service/api';
+import { MessagesService } from '../../service/messages.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,11 @@ export class Login {
   };
   error: any = null;
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private MessagesService: MessagesService
+  ) {}
 
   async handleSubmit() {
     if (!this.formData.email || !this.formData.password) {
@@ -33,9 +38,7 @@ export class Login {
         }
       },
       error: (err: any) => {
-        this.showError(
-          err?.error?.message || err.message || 'Unable to login user: ' + err
-        );
+        this.MessagesService.showErrors('Unable to login user!!');
       },
     });
   }

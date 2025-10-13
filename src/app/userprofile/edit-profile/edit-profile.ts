@@ -55,8 +55,7 @@ export class EditProfile {
         this.router.navigate(['/profile']);
       },
       error: (err) => {
-        //TODO not tested yet
-        this.messagesService.showErrors(err);
+        this.messagesService.showErrors('Error while updating user profile!!');
       },
     });
   }

@@ -11,8 +11,6 @@ import {
   throwError,
 } from 'rxjs';
 import { User } from '../model/user';
-import { MessagesService } from './messages.service';
-import { LoadingService } from './loading.service';
 import { Response } from '../model/response';
 import { Booking } from '../model/booking';
 import { Constants } from '../util/Constants';
@@ -28,11 +26,8 @@ export class ApiService {
   private roomTypeSubject = new BehaviorSubject<string[]>([]);
   courses$: Observable<string[]> = this.roomTypeSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private messagesService: MessagesService
-  ) {
-    this.loadRoomTypes();
+  constructor(private http: HttpClient) {
+    // this.loadRoomTypes();
   }
 
   //
@@ -140,7 +135,8 @@ export class ApiService {
     );
   }
 
-  loadRoomTypes() {
+  //TODO
+  /*loadRoomTypes() {
     const loadRoomTypes$ = this.http
       .get<string[]>(`${Constants.BASE_URL}/rooms/types`)
       .pipe(
@@ -153,7 +149,7 @@ export class ApiService {
         }),
         tap((types) => this.roomTypeSubject.next(types))
       );
-  }
+  }*/
 
   getRoomTypes(): Observable<any> {
     return this.http.get<Response>(`${Constants.BASE_URL}/rooms/types`);

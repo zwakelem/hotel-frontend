@@ -10,6 +10,7 @@ import {
   NgbDateStruct,
   NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { MessagesService } from '../../service/messages.service';
 
 @Component({
   selector: 'app-room-details',
@@ -28,7 +29,6 @@ export class RoomDetails {
   showDatePicker: boolean = false;
   showBookingPreview: boolean = false;
   message: any = null;
-  error: any = null;
 
   // gets today's date
   minDate: NgbDateStruct = this.todaysDate(); // Current date
@@ -39,7 +39,8 @@ export class RoomDetails {
   constructor(
     private apiService: ApiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private messagesService: MessagesService
   ) {}
 
   ngOnInit() {
@@ -51,13 +52,6 @@ export class RoomDetails {
     });
   }
 
-  showError(msg: string): void {
-    this.error = msg;
-    setTimeout(() => {
-      this.error = null;
-    }, 5000);
-  }
-
   calculateTotalPrice(): number {
     if (!this.checkInDate || !this.checkOutDate) {
       return 0;
@@ -67,7 +61,7 @@ export class RoomDetails {
     const checkOut = this.parseDate(this.checkOutDate);
 
     if (isNaN(checkIn.getTime()) || isNaN(checkOut.getTime())) {
-      this.showError('Invalid date selected!!');
+      this.messagesService.showErrors('Invalid date selected!!');
       return 0;
     }
 
@@ -82,7 +76,9 @@ export class RoomDetails {
 
   handleConfirmation(): void {
     if (!this.checkInDate || !this.checkOutDate) {
-      this.showError('Please select both check-in and check-out dates!!');
+      this.messagesService.showErrors(
+        'Please select both check-in and check-out dates!!'
+      );
       return;
     }
 
@@ -114,7 +110,9 @@ export class RoomDetails {
         }
       },
       error: (err) => {
-        this.showError(err?.error?.message || 'Unable to make a booking.');
+        this.messagesService.showErrors(
+          err?.error?.message || 'Unable to make a booking.'
+        );
       },
     });
   }
